@@ -7,9 +7,7 @@ const Documents = () => {
         <div className="col-3"></div>
         <div className="d-flex col-6">
           <div className="gallery-filter">
-            <button className="btn btn-default filter-button">
-              All Documents
-            </button>
+            <button className="btn btn-default filter-button">All</button>
             <button className="btn btn-default filter-button">MSDS</button>
             <button className="btn btn-default filter-button">
               Technical Sheet
@@ -38,7 +36,6 @@ const Documents = () => {
         </div>
         <div className="col-3">
           <Accordion />
-          
         </div>
         <div className="col-9">
           <ServiceDocuments />
