@@ -1,20 +1,25 @@
 import Card from "./Card";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getAllDocs } from "../redux/documentSlice";
 
 const ServiceDocuments = () => {
+  const { allDocs } = useSelector((store) => store.doc);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllDocs());
+  }, []);
+
   return (
     <div className="row gy-3">
-      <div className="col-4">
-        <Card />
-      </div>
-      <div className="col-4">
-        <Card />
-      </div>
-      <div className="col-4">
-        <Card />
-      </div>
-      <div className="col-4">
-        <Card />
-      </div>
+      {allDocs?.map((item) => {
+        return (
+          <div className="col-4" key={item._id}>
+            <Card {...item} />
+          </div>
+        );
+      })}
     </div>
   );
 };

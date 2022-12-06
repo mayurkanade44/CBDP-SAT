@@ -1,19 +1,14 @@
-import msds from "../images/msds.png";
-const Card = () => {
+
+const Card = ({ typeOfFile, name, typeOfService }) => {
   return (
     <div className="card">
-      <img
-        src={msds}
-        className="card-img-center"
-        alt="..."
-        style={{ width: 200 }}
-      />
+      <h3 className="text-center mt-2">{typeOfFile}</h3>
       <div className="card-body">
         <h5 className="card-title" style={{ color: "red" }}>
-          PRIMISE SC 2020
+          {name}
         </h5>
         <p className="card-text">
-          <b>Services - </b> Antron, Bedbugs
+          <b>Services - </b> {typeOfService}
         </p>
         <button className="btn btn-primary m-1">Preview</button>
         <button className="btn btn-success m-1">Download</button>

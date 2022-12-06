@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllCatalogue } from "../redux/catalogueSlice";
+import { getServiceDocs } from "../redux/documentSlice";
 
 const Accordion = () => {
   const { loading, allCatalogue } = useSelector((store) => store.catalogue);
@@ -9,6 +10,10 @@ const Accordion = () => {
   useEffect(() => {
     dispatch(getAllCatalogue());
   }, []);
+
+  const handleService = (name) => {
+    dispatch(getServiceDocs(name));
+  };
 
   return (
     <div className="accordion" id="accordionExample">
@@ -38,7 +43,7 @@ const Accordion = () => {
                   .map((service) => (
                     <tr key={service._id}>
                       <th>
-                        <button className="btn">
+                        <button className="btn" onClick={() => handleService(service.serviceName)}>
                           <b>{service.serviceName}</b>
                         </button>
                       </th>
