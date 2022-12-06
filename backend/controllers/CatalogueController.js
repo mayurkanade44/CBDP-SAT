@@ -25,7 +25,7 @@ export const addService = async (req, res) => {
 export const getService = async (req, res) => {
   try {
     const services = await Catalogue.find({});
-    res.status(200).json(services);
+    res.status(200).json({ services });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "There was some error" });

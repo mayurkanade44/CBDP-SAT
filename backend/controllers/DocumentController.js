@@ -10,6 +10,10 @@ export const addDocument = async (req, res) => {
       return res.status(400).json({ msg: "Please provide all values" });
     }
 
+    if (!req.files) {
+      return res.status(400).json({ msg: "Please select a file" });
+    }
+
     const docFile = req.files.doc;
     const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
     await docFile.mv(docPath);
@@ -25,6 +29,27 @@ export const addDocument = async (req, res) => {
     return res.status(201).json({ msg: `${doc.name} has been added` });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ msg: "Server error, tray again later" });
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
+
+export const getAllDocuments = async (req, res) => {
+  try {
+    const documents = await Document.find({});
+    return res.status(200).json({ documents });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
+
+export const getServiceDocuments = async (req, res) => {
+  const { name } = req.params;
+  try {
+    const serviceDoc = await Document.find({ typeOfService: { $in: name } });
+    return res.status(200).json({ serviceDoc });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
   }
 };
