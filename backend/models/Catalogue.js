@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const CatalougeSchema = new mongoose.Schema({
-  serviceName: { type: String, default: null },
-  fileType: { type: String, default: null },
+  catalogueType: { type: String },
+  serviceName: { type: String, default: undefined },
+  fileType: { type: String, default: undefined },
 });
 
 export default mongoose.model("Catalogue", CatalougeSchema);

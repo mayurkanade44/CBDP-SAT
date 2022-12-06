@@ -1,9 +1,21 @@
 import Catalogue from "../models/Catalogue.js";
 
 export const addService = async (req, res) => {
+  const { serviceName, fileType } = req.body;
   try {
-    await Catalogue.create(req.body);
-    res.status(201).json({ msg: "Service added successfully" });
+    let alreadyExists;
+    if (serviceName) alreadyExists = await Catalogue.findOne({ serviceName });
+    else alreadyExists = await Catalogue.findOne({ fileType });
+
+    if (alreadyExists) return res.status(400).json({ msg: "already exists" });
+
+    const serv = await Catalogue.create(req.body);
+
+    let name;
+    if (serv.serviceName) name = serv.serviceName;
+    else name = serv.fileType;
+
+    return res.status(201).json({ msg: `${name} added successfully` });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "There was some error" });
