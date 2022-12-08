@@ -47,9 +47,12 @@ const Accordion = () => {
                   .map((service) => (
                     <tr
                       key={service._id}
-                      className={
-                        activeService === service.serviceName ? "active" : null
-                      }
+                      className={`filter-button
+                        ${
+                          activeService === service.serviceName
+                            ? "active"
+                            : null
+                        }`}
                     >
                       <th>
                         <button

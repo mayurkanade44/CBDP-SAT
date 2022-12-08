@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import menu from "../images/menu.png";
+import bag from "../images/bag.png";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [expand, setExpand] = useState(false);
+  const { cart } = useSelector((store) => store.doc);
 
   return (
     <header>
@@ -74,6 +77,17 @@ const Navbar = () => {
                   <h5>Upskill</h5>
                 </Link>
               </li>
+            </ul>
+            <ul>
+              <img
+                src={bag}
+                className="mt-2"
+                alt="cart"
+                style={{ width: 35 }}
+              />
+              {cart.length > 0 && (
+                <span className="total-amount">{cart.length}</span>
+              )}
             </ul>
             <ul className="navbar-nav ms-auto prof">
               <h5>Mayur</h5>

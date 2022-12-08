@@ -6,6 +6,7 @@ const initialState = {
   allDocs: [],
   serviceDocs: [],
   search: "",
+  cart: [],
 };
 
 export const getAllDocs = createAsyncThunk(
@@ -49,6 +50,9 @@ const documentSlice = createSlice({
     handleChange: (state, { payload: { name, value } }) => {
       state[name] = value;
     },
+    attachFile: (state, { payload: { file } }) => {
+      state.cart.push(file)
+    },
   },
   extraReducers: {
     [getAllDocs.pending]: (state) => {
@@ -76,6 +80,6 @@ const documentSlice = createSlice({
   },
 });
 
-export const { filterDoc, handleChange } = documentSlice.actions;
+export const { filterDoc, handleChange, attachFile } = documentSlice.actions;
 
 export default documentSlice.reducer;

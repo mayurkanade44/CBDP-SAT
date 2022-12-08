@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { attachFile } from "../redux/documentSlice";
 
-const Card = ({ typeOfFile, name, typeOfService }) => {
+const Card = ({ typeOfFile, name, typeOfService, file }) => {
+  const dispatch = useDispatch();
+
   return (
     <motion.div layout className="card">
       <h3 className="text-center mt-2">{typeOfFile}</h3>
@@ -13,7 +17,12 @@ const Card = ({ typeOfFile, name, typeOfService }) => {
         </p>
         <button className="btn btn-primary m-1">Preview</button>
         <button className="btn btn-success m-1">Download</button>
-        <button className="btn btn-dark m-1">Attach</button>
+        <button
+          className="btn btn-dark m-1"
+          onClick={() => dispatch(attachFile({ file }))}
+        >
+          Attach
+        </button>
       </div>
     </motion.div>
   );

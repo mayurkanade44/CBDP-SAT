@@ -186,8 +186,6 @@ header .nav-link h5:hover {
   }
 }
 
-
-
 .gallery-filter {
   width: 100%;
   text-align: center;
@@ -222,12 +220,19 @@ header .nav-link h5:hover {
   background-color: #3cc88f;
 }
 
-
-
 .accordion-header .test {
   text-align: center !important;
 }
 
 .active {
   background-color: #3cc88f;
+}
+
+.total-amount {
+  font-size: 18px;
+  color: white;
+  background-color: black;
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50%;
 }
