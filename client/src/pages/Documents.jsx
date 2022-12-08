@@ -1,16 +1,42 @@
+import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Accordion, ServiceDocuments } from "../components";
 import { activeBtn } from "../redux/catalogueSlice";
-import { filterDoc, getAllDocs } from "../redux/documentSlice";
+import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
 
 const Documents = () => {
+  const { search } = useSelector((store) => store.doc);
   const dispatch = useDispatch();
-  const [all, setAll] = useState("");
+  const [all, setAll] = useState(false);
+
+  useEffect(() => {
+    dispatch(getAllDocs({ search }));
+    // if (search) {
+    //   setTimeout(() => {
+    //     dispatch(getAllDocs({ search }));
+    //   }, 1000);
+    // } else {
+    // }
+  }, [all]);
 
   const getDocs = () => {
-    dispatch(getAllDocs());
     dispatch(activeBtn({ name: "" }));
+    dispatch(handleChange({ name: "search", value: "" }));
+    setAll(!all);
+  };
+
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    dispatch(handleChange({ name, value }));
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    dispatch(activeBtn({ name: "" }));
+    setAll(!all);
   };
 
   return (
@@ -58,17 +84,21 @@ const Documents = () => {
               type="text"
               className="form-control"
               placeholder="File Name"
+              name="search"
+              value={search}
+              onChange={handleInput}
             />
             <button
               className="input-group-text btn btn-primary"
               id="basic-addon2"
+              onClick={handleSearch}
             >
               Search
             </button>
           </div>
         </div>
         <div className="col-3">
-          <Accordion setAll={setAll} />
+          <Accordion />
         </div>
         <div className="col-9">
           <ServiceDocuments />

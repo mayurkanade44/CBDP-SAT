@@ -34,8 +34,13 @@ export const addDocument = async (req, res) => {
 };
 
 export const getAllDocuments = async (req, res) => {
+  const { search } = req.query;
+  const queryObject = {};
+  if (search) {
+    queryObject.name = { $regex: search, $options: "i" };
+  }
   try {
-    const documents = await Document.find({});
+    const documents = await Document.find(queryObject);
     return res.status(200).json({ documents });
   } catch (error) {
     console.log(error);

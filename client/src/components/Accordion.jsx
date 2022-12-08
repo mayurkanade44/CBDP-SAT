@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllCatalogue, activeBtn } from "../redux/catalogueSlice";
 import { getServiceDocs } from "../redux/documentSlice";
 
-const Accordion = ({ setAll }) => {
+const Accordion = () => {
   const { loading, allCatalogue, activeService } = useSelector(
     (store) => store.catalogue
   );

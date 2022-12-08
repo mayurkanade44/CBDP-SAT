@@ -5,14 +5,16 @@ const initialState = {
   docLoading: false,
   allDocs: [],
   serviceDocs: [],
-  
+  search: "",
 };
 
 export const getAllDocs = createAsyncThunk(
   "document/allDocs",
-  async (_, thunkAPI) => {
+  async ({ search }, thunkAPI) => {
     try {
-      const res = await axios.get("/documents/allDocs");
+      let url = "/documents/allDocs";
+      if (search) url = url + `?search=${search}`;
+      const res = await axios.get(url);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -44,6 +46,9 @@ const documentSlice = createSlice({
       );
       state.allDocs = filterDocs;
     },
+    handleChange: (state, { payload: { name, value } }) => {
+      state[name] = value;
+    },
   },
   extraReducers: {
     [getAllDocs.pending]: (state) => {
@@ -71,6 +76,6 @@ const documentSlice = createSlice({
   },
 });
 
-export const { filterDoc } = documentSlice.actions;
+export const { filterDoc, handleChange } = documentSlice.actions;
 
 export default documentSlice.reducer;

@@ -1,16 +1,9 @@
 import Card from "./Card";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getAllDocs } from "../redux/documentSlice";
 import { motion } from "framer-motion";
 
 const ServiceDocuments = () => {
   const { allDocs } = useSelector((store) => store.doc);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllDocs());
-  }, []);
 
   return (
     <div className="row gy-3">
