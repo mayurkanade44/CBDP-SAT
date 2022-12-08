@@ -1,20 +1,53 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Accordion, ServiceDocuments } from "../components";
+import { activeBtn } from "../redux/catalogueSlice";
+import { filterDoc, getAllDocs } from "../redux/documentSlice";
 
 const Documents = () => {
+  const dispatch = useDispatch();
+  const [all, setAll] = useState("");
+
+  const getDocs = () => {
+    dispatch(getAllDocs());
+    dispatch(activeBtn({ name: "" }));
+  };
+
   return (
     <div className="container-fluid mt-3">
       <div className="row">
         <div className="col-3"></div>
         <div className="d-flex col-6">
           <div className="gallery-filter">
-            <button className="btn btn-default filter-button">All</button>
-            <button className="btn btn-default filter-button">MSDS</button>
-            <button className="btn btn-default filter-button">
-              Technical Sheet
+            <button className="btn btn-default filter-button" onClick={getDocs}>
+              All
             </button>
-            <button className="btn btn-default filter-button">SOP</button>
-            <button className="btn btn-default filter-button">Videos</button>
-            <button className="btn btn-default filter-button">
+
+            <button
+              className="btn btn-default filter-button"
+              onClick={() => dispatch(filterDoc({ name: "MSDS" }))}
+            >
+              MSDS
+            </button>
+
+            <button
+              className="btn btn-default filter-button"
+              onClick={() => dispatch(filterDoc({ name: "SOP" }))}
+            >
+              SOP
+            </button>
+            <button
+              className="btn btn-default filter-button"
+              onClick={() => dispatch(filterDoc({ name: "Videos" }))}
+            >
+              Videos
+            </button>
+            <button
+              className="btn btn-default filter-button"
+              onClick={() =>
+                dispatch(filterDoc({ name: "Technical Resources" }))
+              }
+            >
               Technical Resources
             </button>
           </div>
@@ -35,7 +68,7 @@ const Documents = () => {
           </div>
         </div>
         <div className="col-3">
-          <Accordion />
+          <Accordion setAll={setAll} />
         </div>
         <div className="col-9">
           <ServiceDocuments />

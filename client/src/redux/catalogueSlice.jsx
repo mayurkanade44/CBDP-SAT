@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   loading: false,
   allCatalogue: [],
+  activeService: "",
 };
 
 export const getAllCatalogue = createAsyncThunk(
@@ -22,6 +23,11 @@ export const getAllCatalogue = createAsyncThunk(
 const catalogueSlice = createSlice({
   name: "catalogue",
   initialState,
+  reducers: {
+    activeBtn: (state, { payload: { name } }) => {
+      state.activeService = name;
+    },
+  },
   extraReducers: {
     [getAllCatalogue.pending]: (state) => {
       state.loading = true;
@@ -35,5 +41,7 @@ const catalogueSlice = createSlice({
     },
   },
 });
+
+export const { activeBtn } = catalogueSlice.actions;
 
 export default catalogueSlice.reducer;

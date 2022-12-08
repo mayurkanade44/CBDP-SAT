@@ -227,3 +227,7 @@ header .nav-link h5:hover {
 .accordion-header .test {
   text-align: center !important;
 }
+
+.active {
+  background-color: #3cc88f;
+}

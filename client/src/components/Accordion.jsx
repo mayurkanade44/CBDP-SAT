@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllCatalogue } from "../redux/catalogueSlice";
+import { getAllCatalogue, activeBtn } from "../redux/catalogueSlice";
 import { getServiceDocs } from "../redux/documentSlice";
 
-const Accordion = () => {
-  const { loading, allCatalogue } = useSelector((store) => store.catalogue);
+const Accordion = ({ setAll }) => {
+  const { loading, allCatalogue, activeService } = useSelector(
+    (store) => store.catalogue
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,6 +16,7 @@ const Accordion = () => {
 
   const handleService = (name) => {
     dispatch(getServiceDocs(name));
+    dispatch(activeBtn({ name }));
   };
 
   return (
@@ -41,9 +45,17 @@ const Accordion = () => {
                 allCatalogue
                   .filter((item) => item.catalogueType === "Services")
                   .map((service) => (
-                    <tr key={service._id}>
+                    <tr
+                      key={service._id}
+                      className={
+                        activeService === service.serviceName ? "active" : null
+                      }
+                    >
                       <th>
-                        <button className="btn" onClick={() => handleService(service.serviceName)}>
+                        <button
+                          className="btn"
+                          onClick={() => handleService(service.serviceName)}
+                        >
                           <b>{service.serviceName}</b>
                         </button>
                       </th>

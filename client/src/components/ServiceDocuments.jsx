@@ -2,6 +2,7 @@ import Card from "./Card";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAllDocs } from "../redux/documentSlice";
+import { motion } from "framer-motion";
 
 const ServiceDocuments = () => {
   const { allDocs } = useSelector((store) => store.doc);
@@ -15,9 +16,9 @@ const ServiceDocuments = () => {
     <div className="row gy-3">
       {allDocs?.map((item) => {
         return (
-          <div className="col-4" key={item._id}>
+          <motion.div layout className="col-4" key={item._id}>
             <Card {...item} />
-          </div>
+          </motion.div>
         );
       })}
     </div>

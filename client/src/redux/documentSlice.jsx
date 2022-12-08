@@ -5,6 +5,7 @@ const initialState = {
   docLoading: false,
   allDocs: [],
   serviceDocs: [],
+  
 };
 
 export const getAllDocs = createAsyncThunk(
@@ -36,6 +37,14 @@ export const getServiceDocs = createAsyncThunk(
 const documentSlice = createSlice({
   name: "document",
   initialState,
+  reducers: {
+    filterDoc: (state, { payload: { name } }) => {
+      const filterDocs = state.serviceDocs.filter(
+        (item) => item.typeOfFile === name
+      );
+      state.allDocs = filterDocs;
+    },
+  },
   extraReducers: {
     [getAllDocs.pending]: (state) => {
       state.docLoading = true;
@@ -43,6 +52,7 @@ const documentSlice = createSlice({
     [getAllDocs.fulfilled]: (state, { payload }) => {
       state.docLoading = false;
       state.allDocs = payload.documents;
+      state.serviceDocs = payload.documents;
     },
     [getAllDocs.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -53,11 +63,14 @@ const documentSlice = createSlice({
     [getServiceDocs.fulfilled]: (state, { payload }) => {
       state.docLoading = false;
       state.allDocs = payload.serviceDoc;
+      state.serviceDocs = payload.serviceDoc;
     },
     [getServiceDocs.rejected]: (state, { payload }) => {
       state.loading = false;
     },
   },
 });
+
+export const { filterDoc } = documentSlice.actions;
 
 export default documentSlice.reducer;
