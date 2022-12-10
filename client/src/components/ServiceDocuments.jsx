@@ -1,5 +1,5 @@
 import Card from "./Card";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
 const ServiceDocuments = () => {

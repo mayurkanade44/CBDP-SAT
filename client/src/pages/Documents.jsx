@@ -6,22 +6,27 @@ import { activeBtn } from "../redux/catalogueSlice";
 import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
 
 const Documents = () => {
-  const { search } = useSelector((store) => store.doc);
+  const { search, allDocs } = useSelector((store) => store.doc);
+  const { activeCatalogue } = useSelector((store) => store.catalogue);
   const dispatch = useDispatch();
   const [all, setAll] = useState(false);
 
+  const files = [];
+
+  if (activeCatalogue === "Services" || activeCatalogue === "Products") {
+    files.length = 0;
+    files.push("MSDS", "SOP", "Videos", "Technical Resources");
+  } else {
+    files.length = 0;
+    files.push("Corporate Details", "PO", "Completion Letter", "Feedback");
+  }
+
   useEffect(() => {
     dispatch(getAllDocs({ search }));
-    // if (search) {
-    //   setTimeout(() => {
-    //     dispatch(getAllDocs({ search }));
-    //   }, 1000);
-    // } else {
-    // }
   }, [all]);
 
   const getDocs = () => {
-    dispatch(activeBtn({ name: "" }));
+    dispatch(activeBtn({ name: "", catalogue:"Services" }));
     dispatch(handleChange({ name: "search", value: "" }));
     setAll(!all);
   };
@@ -29,7 +34,6 @@ const Documents = () => {
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-
     dispatch(handleChange({ name, value }));
   };
 
@@ -48,34 +52,15 @@ const Documents = () => {
             <button className="btn btn-default filter-button" onClick={getDocs}>
               All
             </button>
-
-            <button
-              className="btn btn-default filter-button"
-              onClick={() => dispatch(filterDoc({ name: "MSDS" }))}
-            >
-              MSDS
-            </button>
-
-            <button
-              className="btn btn-default filter-button"
-              onClick={() => dispatch(filterDoc({ name: "SOP" }))}
-            >
-              SOP
-            </button>
-            <button
-              className="btn btn-default filter-button"
-              onClick={() => dispatch(filterDoc({ name: "Videos" }))}
-            >
-              Videos
-            </button>
-            <button
-              className="btn btn-default filter-button"
-              onClick={() =>
-                dispatch(filterDoc({ name: "Technical Resources" }))
-              }
-            >
-              Technical Resources
-            </button>
+            {files.map((item) => (
+              <button
+                className="btn btn-default filter-button"
+                onClick={() => dispatch(filterDoc({ name: item }))}
+                key={item}
+              >
+                {item}
+              </button>
+            ))}
           </div>
         </div>
         <div className="col-3">

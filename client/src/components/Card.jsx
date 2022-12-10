@@ -19,7 +19,7 @@ const Card = ({ typeOfFile, name, typeOfService, file }) => {
         <button className="btn btn-success m-1">Download</button>
         <button
           className="btn btn-dark m-1"
-          onClick={() => dispatch(attachFile({ file }))}
+          onClick={() => dispatch(attachFile({ file, name }))}
         >
           Attach
         </button>

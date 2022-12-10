@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   allCatalogue: [],
   activeService: "",
+  activeCatalogue:"Services"
 };
 
 export const getAllCatalogue = createAsyncThunk(
@@ -24,8 +25,9 @@ const catalogueSlice = createSlice({
   name: "catalogue",
   initialState,
   reducers: {
-    activeBtn: (state, { payload: { name } }) => {
+    activeBtn: (state, { payload: { name, catalogue } }) => {
       state.activeService = name;
+      state.activeCatalogue = catalogue
     },
   },
   extraReducers: {

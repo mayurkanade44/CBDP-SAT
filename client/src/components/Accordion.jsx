@@ -14,9 +14,9 @@ const Accordion = () => {
     dispatch(getAllCatalogue());
   }, []);
 
-  const handleService = (name) => {
+  const handleService = (name, catalogue) => {
     dispatch(getServiceDocs(name));
-    dispatch(activeBtn({ name }));
+    dispatch(activeBtn({ name, catalogue }));
   };
 
   return (
@@ -57,7 +57,9 @@ const Accordion = () => {
                       <th>
                         <button
                           className="btn"
-                          onClick={() => handleService(service.serviceName)}
+                          onClick={() =>
+                            handleService(service.serviceName, "Services")
+                          }
                         >
                           <b>{service.serviceName}</b>
                         </button>
@@ -124,9 +126,22 @@ const Accordion = () => {
                 allCatalogue
                   .filter((item) => item.catalogueType === "Companies")
                   .map((service) => (
-                    <tr key={service._id}>
+                    <tr
+                      key={service._id}
+                      className={`filter-button
+                        ${
+                          activeService === service.serviceName
+                            ? "active"
+                            : null
+                        }`}
+                    >
                       <th>
-                        <button className="btn">
+                        <button
+                          className="btn"
+                          onClick={() =>
+                            handleService(service.serviceName, "Companies")
+                          }
+                        >
                           <b>{service.serviceName}</b>
                         </button>
                       </th>
