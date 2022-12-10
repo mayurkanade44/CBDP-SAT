@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import menu from "../images/menu.png";
 import bag from "../images/bag.png";
+import colorBag from "../images/colorbag.png";
+
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [expand, setExpand] = useState(false);
-  const { cart } = useSelector((store) => store.doc);
+  const { filesCart } = useSelector((store) => store.doc);
 
   return (
     <header>
@@ -23,6 +25,9 @@ const Navbar = () => {
                 }}
               >
                 <h2>CBDP</h2>
+                <p style={{ marginBottom: 0, fontWeight: 400, fontSize: 12 }}>
+                  Cloud Based Document Portal
+                </p>
               </Link>
             </div>
             <button
@@ -78,19 +83,28 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-            <ul>
-              <img
-                src={bag}
-                className="mt-2"
-                alt="cart"
-                style={{ width: 35 }}
-              />
-              {cart.length > 0 && (
-                <span className="total-amount">{cart.length}</span>
-              )}
-            </ul>
+            <ul></ul>
             <ul className="navbar-nav ms-auto prof">
-              <h5>Mayur</h5>
+              <li className="nav-link ">
+                <Link to="/attach" className=" position-relative">
+                  <img
+                    src={Object.keys(filesCart).length > 0 ? colorBag : bag}
+                    className=""
+                    alt="cart"
+                    style={{ width: 32 }}
+                  />
+                  {Object.keys(filesCart).length > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge cart-badge rounded-pill bg-dark">
+                      {Object.keys(filesCart).length}
+                    </span>
+                  )}
+                </Link>
+              </li>
+              <li className="nav-link ">
+                <h5>
+                  <b> Mayur</b>
+                </h5>
+              </li>
             </ul>
           </div>
         </div>

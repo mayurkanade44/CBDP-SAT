@@ -228,11 +228,14 @@ header .nav-link h5:hover {
   background-color: #3cc88f;
 }
 
-.total-amount {
+.cart-badge {
+  width: 30px !important;
+  height: 22px;
+  padding: 3px;
+  padding-top: 4px;
+}
+
+.badge {
+  margin-right: 10px;
   font-size: 18px;
-  color: white;
-  background-color: black;
-  width: 100px !important;
-  height: 100px !important;
-  border-radius: 50%;
 }
