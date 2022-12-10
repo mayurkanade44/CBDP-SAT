@@ -85,11 +85,10 @@ const Navbar = () => {
             </ul>
             <ul></ul>
             <ul className="navbar-nav ms-auto prof">
-              <li className="nav-link ">
+              <li className="nav-link " style={{ margin: 0 }}>
                 <Link to="/attach" className=" position-relative">
                   <img
                     src={Object.keys(filesCart).length > 0 ? colorBag : bag}
-                    className=""
                     alt="cart"
                     style={{ width: 32 }}
                   />
@@ -100,10 +99,27 @@ const Navbar = () => {
                   )}
                 </Link>
               </li>
-              <li className="nav-link ">
-                <h5>
-                  <b> Mayur</b>
-                </h5>
+              <li class="nav-item dropdown">
+                <button
+                  className="nav-link dropdown-toggle btn"
+                  id="navbarDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style={{ marginLeft: 0, marginTop: 2 }}
+                >
+                  <h5 className="d-inline">Mayur</h5>
+                </button>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <Link to="/admin" className="dropdown-item">
+                      Admin
+                    </Link>
+                  </li>
+                  <hr />
+                  <li>
+                    <button className="dropdown-item">Logout</button>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

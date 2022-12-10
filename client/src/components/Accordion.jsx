@@ -151,6 +151,54 @@ const Accordion = () => {
           </table>
         </div>
       </div>
+      <div className="accordion-item">
+        <button
+          className="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseFour"
+          aria-expanded="false"
+          aria-controls="collapseFour"
+        >
+          <h5 className="text-dark text-bold">STQ</h5>
+        </button>
+        <div
+          id="collapseFour"
+          className="accordion-collapse collapse"
+          aria-labelledby="headingThree"
+          data-bs-parent="#accordionExample"
+        >
+          <table className="table table-striped border border-3 ">
+            <tbody className="text-center">
+              {allCatalogue &&
+                allCatalogue
+                  .filter((item) => item.catalogueType === "Companies")
+                  .map((service) => (
+                    <tr
+                      key={service._id}
+                      className={`filter-button
+                        ${
+                          activeService === service.serviceName
+                            ? "active"
+                            : null
+                        }`}
+                    >
+                      <th>
+                        <button
+                          className="btn"
+                          onClick={() =>
+                            handleService(service.serviceName, "Companies")
+                          }
+                        >
+                          <b>{service.serviceName}</b>
+                        </button>
+                      </th>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

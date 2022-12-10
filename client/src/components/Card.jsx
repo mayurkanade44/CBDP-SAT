@@ -34,12 +34,24 @@ const Card = ({ typeOfFile, name, typeOfService, file }) => {
         {view && (
           <div className="modal">
             <div className="modal-content">
-            <button className="btn btn-danger" onClick={() => setView(!view)}>Close</button>
+              <button className="btn btn-danger" onClick={() => setView(!view)}>
+                Close
+              </button>
               <FileViewer fileType={type} filePath={file} />
             </div>
           </div>
         )}
-        <button className="btn btn-success m-1">Download</button>
+        <button className="btn btn-success m-1">
+          <a
+            style={{
+              textDecoration: "none",
+              color: "white",
+            }}
+            href={file}
+          >
+            Download
+          </a>
+        </button>
         <button
           className="btn btn-dark m-1"
           onClick={() => dispatch(attachFile({ file, name }))}
