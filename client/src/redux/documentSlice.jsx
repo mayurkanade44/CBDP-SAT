@@ -6,7 +6,8 @@ const initialState = {
   allDocs: [],
   serviceDocs: [],
   search: "",
-  cart: [],
+  emailTo: "",
+  filesCart: {},
 };
 
 export const getAllDocs = createAsyncThunk(
@@ -37,6 +38,20 @@ export const getServiceDocs = createAsyncThunk(
   }
 );
 
+export const sendMail = createAsyncThunk(
+  "document/sendMail",
+  async (mail, thunkAPI) => {
+    try {
+      const res = await axios.post("/documents/sendMail", mail);
+      thunkAPI.dispatch(clearValues());
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
 const documentSlice = createSlice({
   name: "document",
   initialState,
@@ -50,8 +65,16 @@ const documentSlice = createSlice({
     handleChange: (state, { payload: { name, value } }) => {
       state[name] = value;
     },
-    attachFile: (state, { payload: { file } }) => {
-      state.cart.push(file)
+    attachFile: (state, { payload: { file, name } }) => {
+      state.filesCart[name] = file;
+    },
+    removeFile: (state, { payload: { name } }) => {
+      delete state.filesCart[name];
+    },
+    clearValues: () => {
+      return {
+        ...initialState,
+      };
     },
   },
   extraReducers: {
@@ -77,9 +100,21 @@ const documentSlice = createSlice({
     [getServiceDocs.rejected]: (state, { payload }) => {
       state.loading = false;
     },
+    [sendMail.pending]: (state) => {
+      state.docLoading = true;
+    },
+    [sendMail.fulfilled]: (state, { payload }) => {
+      state.docLoading = false;
+      console.log(payload.msg);
+    },
+    [sendMail.rejected]: (state, { payload }) => {
+      state.docLoading = false;
+      console.log(payload.msg);
+    },
   },
 });
 
-export const { filterDoc, handleChange, attachFile } = documentSlice.actions;
+export const { filterDoc, handleChange, attachFile, removeFile, clearValues } =
+  documentSlice.actions;
 
 export default documentSlice.reducer;
