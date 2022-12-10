@@ -10,23 +10,22 @@ export const addDocument = async (req, res) => {
       return res.status(400).json({ msg: "Please provide all values" });
     }
 
-    if (!req.files) {
-      return res.status(400).json({ msg: "Please select a file" });
+    if (req.files) {
+      const docFile = req.files.file;
+      const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
+      await docFile.mv(docPath);
+
+      const result = await cloudinary.uploader.upload(`files/${docFile.name}`, {
+        resource_type: "raw",
+        use_filename: true,
+        folder: "cbdp",
+      });
+      req.body.file = result.secure_url;
+      fs.unlinkSync(`./files/${docFile.name}`);
     }
 
-    const docFile = req.files.doc;
-    const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
-    await docFile.mv(docPath);
-
-    const result = await cloudinary.uploader.upload(`files/${docFile.name}`, {
-      resource_type: "raw",
-      use_filename: true,
-      folder: "cbdp",
-    });
-    req.body.file = result.secure_url;
     const doc = await Document.create(req.body);
-    fs.unlinkSync(`./files/${docFile.name}`);
-    return res.status(201).json({ msg: `${doc.name} has been added` });
+    return res.status(201).json({ msg: `${doc.name} has been uploaded` });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later" });
@@ -40,7 +39,7 @@ export const getAllDocuments = async (req, res) => {
     queryObject.name = { $regex: search, $options: "i" };
   }
   try {
-    const documents = await Document.find(queryObject);
+    const documents = await Document.find(queryObject).sort("-createdAt");
     return res.status(200).json({ documents });
   } catch (error) {
     console.log(error);
@@ -53,6 +52,18 @@ export const getServiceDocuments = async (req, res) => {
   try {
     const serviceDoc = await Document.find({ typeOfService: { $in: name } });
     return res.status(200).json({ serviceDoc });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
+
+export const sendMail = async (req, res) => {
+  const { file, to } = req.body;
+  try {
+    if (!file || !to) {
+      return res.status(400).json({ msg: "Please provide email to or files" });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later" });

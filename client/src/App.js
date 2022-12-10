@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components";
-import { Documents } from "./pages";
+import { Attach, Documents } from "./pages";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/documents" element={<Documents />} />
+        <Route path="/attach" element={<Attach />} />
       </Routes>
     </Router>
   );
