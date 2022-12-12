@@ -22,7 +22,11 @@ header {
 }
 
 .prof {
-  margin: 0 50px !important;
+  margin: 0 50px 0 0px !important;
+}
+
+.cart {
+  padding: 0 !important;
 }
 
 header .logo {

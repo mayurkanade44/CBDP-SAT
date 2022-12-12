@@ -15,7 +15,6 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/documents" element={<Documents />} />
-        <Route path="/attach" element={<Attach />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>

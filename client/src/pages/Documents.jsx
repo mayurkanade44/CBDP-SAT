@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Accordion, ServiceDocuments } from "../components";
 import { activeBtn } from "../redux/adminSlice";
 import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
+import Attach from "./Attach";
 
 const Documents = () => {
   const { search } = useSelector((store) => store.doc);
@@ -86,6 +87,11 @@ const Documents = () => {
           <Accordion />
         </div>
         <div className="col-9">
+          <div className="collapse mb-3" id="collapseExample">
+            <div className="card card-body">
+              <Attach />
+            </div>
+          </div>
           <ServiceDocuments />
         </div>
       </div>

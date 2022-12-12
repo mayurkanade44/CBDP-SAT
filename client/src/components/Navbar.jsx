@@ -85,19 +85,27 @@ const Navbar = () => {
             </ul>
             <ul></ul>
             <ul className="navbar-nav ms-auto prof">
-              <li className="nav-link " style={{ margin: 0 }}>
-                <Link to="/attach" className=" position-relative">
+              <li className="nav-link cart" style={{ margin: 0 }}>
+                <button
+                  className="btn position-relative"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                  style={{ paddingTop: 0 }}
+                >
                   <img
                     src={Object.keys(filesCart).length > 0 ? colorBag : bag}
                     alt="cart"
                     style={{ width: 32 }}
                   />
                   {Object.keys(filesCart).length > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge cart-badge rounded-pill bg-dark">
+                    <span className="position-absolute top-25 start-75 translate-middle badge cart-badge rounded-pill bg-dark">
                       {Object.keys(filesCart).length}
                     </span>
                   )}
-                </Link>
+                </button>
               </li>
               <li className="nav-item dropdown">
                 <button

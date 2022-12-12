@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { InputRow } from "../components";
 import { handleChange, removeFile, sendMail } from "../redux/documentSlice";
 
 const Attach = () => {
   const { filesCart, emailTo } = useSelector((store) => store.doc);
+  const [collapseButton, setCollapseButton] = useState("");
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -10,36 +13,29 @@ const Attach = () => {
     if (Object.entries(filesCart).length === 0) {
       return console.log("Please attach file");
     }
-    dispatch(sendMail({ emailTo, filesCart }));
+    // dispatch(sendMail({ emailTo, filesCart }));
+    setCollapseButton("collapse");
   };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
         <div className="row g-3 align-items-center">
-          <div className="col-auto">
-            <label className="col-form-label">
-              <h5> Email To -</h5>
-            </label>
-          </div>
-          <div className="col-4">
-            <input
+          <div className="col-5">
+            <InputRow
+              label="Email To -"
               type="email"
-              id="inputPassword6"
-              className="form-control"
-              aria-describedby="passwordHelpInline"
               placeholder="abc@xyz.com"
               name="emailTo"
               value={emailTo}
-              required
-              onChange={(e) =>
+              handleChange={(e) =>
                 dispatch(
                   handleChange({ name: e.target.name, value: e.target.value })
                 )
               }
             />
           </div>
-          <div className="col-6">
+          <div className="col-7">
             <span id="passwordHelpInline" className="form-text">
               Multiple email ids must be comma separated
             </span>
@@ -59,7 +55,16 @@ const Attach = () => {
             ))}
           </div>
           <div className="col-1">
-            <button className="btn btn-primary">Send</button>
+            <button
+              className="btn btn-primary"
+              data-bs-toggle={collapseButton}
+              data-bs-target="#collapseExample"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+              disabled={!emailTo && true}
+            >
+              Send
+            </button>
           </div>
         </div>
       </form>
