@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const initialState = {
@@ -16,6 +17,7 @@ export const addCatalogue = createAsyncThunk(
   async (catalogue, thunkAPI) => {
     try {
       const res = await axios.post("/admin/service", catalogue);
+      thunkAPI.dispatch(clearAdminValues());
       return res.data;
     } catch (error) {
       console.log(error);
@@ -48,6 +50,11 @@ const catalogueSlice = createSlice({
     handleAdminChange: (state, { payload: { name, value } }) => {
       state[name] = value;
     },
+    clearAdminValues: (state) => {
+      state.catalogueType = "";
+      state.serviceName = "";
+      state.fileType = "";
+    },
   },
   extraReducers: {
     [addCatalogue.pending]: (state) => {
@@ -55,9 +62,11 @@ const catalogueSlice = createSlice({
     },
     [addCatalogue.fulfilled]: (state, { payload }) => {
       state.loading = false;
+      toast.success(payload.msg);
     },
     [addCatalogue.rejected]: (state, { payload }) => {
       state.loading = false;
+      toast.error(payload);
     },
     [getAllCatalogue.pending]: (state) => {
       state.loading = true;
@@ -68,10 +77,12 @@ const catalogueSlice = createSlice({
     },
     [getAllCatalogue.rejected]: (state, { payload }) => {
       state.loading = false;
+      toast.error(payload);
     },
   },
 });
 
-export const { activeBtn, handleAdminChange } = catalogueSlice.actions;
+export const { activeBtn, handleAdminChange, clearAdminValues } =
+  catalogueSlice.actions;
 
 export default catalogueSlice.reducer;

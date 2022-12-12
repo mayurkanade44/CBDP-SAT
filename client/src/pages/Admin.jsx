@@ -1,15 +1,27 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { InputRow, InputSelect } from "../components";
+import { addCatalogue, handleAdminChange } from "../redux/adminSlice";
+import { adminController } from "../utilis/data";
 
 const Admin = () => {
   const { serviceName, allCatalogue, catalogueType } = useSelector(
     (store) => store.admin
   );
   const [showUser, setShowUser] = useState(false);
+  const dispatch = useDispatch();
 
-  const catalogues = allCatalogue.map((item) => item.catalogueType);
-  console.log(catalogues);
+  const catalogues = [];
+  allCatalogue.map(
+    (item) =>
+      !catalogues.includes(item.catalogueType) &&
+      catalogues.push(item.catalogueType)
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addCatalogue({ catalogueType, serviceName }));
+  };
 
   return (
     <div className="container-fluid ms-3">
@@ -18,45 +30,36 @@ const Admin = () => {
         <div className="col-2">
           <table className="table border border-3 ">
             <tbody className="text-center">
-              <tr className="filter-button">
-                <th>
-                  <button className="btn">
-                    <b>All Users</b>
-                  </button>
-                </th>
-              </tr>
-              <tr className="filter-button">
-                <th>
-                  <button className="btn">
-                    <b>Add Document</b>
-                  </button>
-                </th>
-              </tr>
-              <tr className="filter-button">
-                <th>
-                  <button className="btn">
-                    <b>Add Video</b>
-                  </button>
-                </th>
-              </tr>
-              <tr className="filter-button">
-                <th>
-                  <button className="btn">
-                    <b>Add File Type</b>
-                  </button>
-                </th>
-              </tr>
+              {adminController.map((item) => {
+                return (
+                  <tr className="filter-button" key={item.id}>
+                    <th>
+                      <button className="btn">
+                        <b>{item.name}</b>
+                      </button>
+                    </th>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
         <div className="col-10">
-          <form className="row">
+          <form className="row" onSubmit={handleSubmit}>
             <div className="col-4">
               <InputSelect
                 label="Completion"
-                name="completion"
+                name="catalogueType"
                 value={catalogueType}
                 data={["Select", ...catalogues]}
+                handleChange={(e) =>
+                  dispatch(
+                    handleAdminChange({
+                      name: e.target.name,
+                      value: e.target.value,
+                    })
+                  )
+                }
               />
             </div>
             <div className="col-4">
@@ -64,7 +67,20 @@ const Admin = () => {
                 label="Service Name"
                 name="serviceName"
                 value={serviceName}
+                handleChange={(e) =>
+                  dispatch(
+                    handleAdminChange({
+                      name: e.target.name,
+                      value: e.target.value,
+                    })
+                  )
+                }
               />
+            </div>
+            <div className="col-auto">
+              <button className="btn btn-primary mt-1" type="submit">
+                Save
+              </button>
             </div>
           </form>
         </div>

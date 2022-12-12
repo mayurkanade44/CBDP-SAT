@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllCatalogue, activeBtn } from "../redux/adminSlice";
@@ -44,6 +43,8 @@ const Accordion = () => {
               {allCatalogue &&
                 allCatalogue
                   .filter((item) => item.catalogueType === "Services")
+                  .slice(1)
+                  .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
                   .map((service) => (
                     <tr
                       key={service._id}
@@ -90,15 +91,33 @@ const Accordion = () => {
         >
           <table className="table table-striped border border-3 ">
             <tbody className="text-center">
-              <tr>
-                <th>Trapper Machine</th>
-              </tr>
-              <tr>
-                <th>Snapper</th>
-              </tr>
-              <tr>
-                <th>Samarth Incense Sticks</th>
-              </tr>
+              {allCatalogue &&
+                allCatalogue
+                  .filter((item) => item.catalogueType === "Products")
+                  .slice(1)
+                  .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
+                  .map((service) => (
+                    <tr
+                      key={service._id}
+                      className={`filter-button
+                        ${
+                          activeService === service.serviceName
+                            ? "active"
+                            : null
+                        }`}
+                    >
+                      <th>
+                        <button
+                          className="btn"
+                          onClick={() =>
+                            handleService(service.serviceName, "Services")
+                          }
+                        >
+                          <b>{service.serviceName}</b>
+                        </button>
+                      </th>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>
@@ -125,6 +144,8 @@ const Accordion = () => {
               {allCatalogue &&
                 allCatalogue
                   .filter((item) => item.catalogueType === "Companies")
+                  .slice(1)
+                  .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
                   .map((service) => (
                     <tr
                       key={service._id}
