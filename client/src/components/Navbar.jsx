@@ -99,7 +99,7 @@ const Navbar = () => {
                   )}
                 </Link>
               </li>
-              <li class="nav-item dropdown">
+              <li className="nav-item dropdown">
                 <button
                   className="nav-link dropdown-toggle btn"
                   id="navbarDropdown"
