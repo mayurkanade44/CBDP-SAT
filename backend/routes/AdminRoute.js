@@ -1,5 +1,5 @@
 import express from "express";
-import { addService, getService } from "../controllers/CatalogueController.js";
+import { addService, getService } from "../controllers/AdminController.js";
 
 const router = express.Router();
 

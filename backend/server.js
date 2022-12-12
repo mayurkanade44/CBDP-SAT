@@ -15,7 +15,7 @@ cloudinary.config({
 });
 
 import documentRouter from "./routes/DocumentRoute.js";
-import catalogueRouter from "./routes/CatalogueRoute.js"
+import adminRouter from "./routes/AdminRoute.js";
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== "production") {
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true }));
 
-app.use("/api/catalogue", catalogueRouter);
+app.use("/api/admin", adminRouter);
 app.use("/api/documents", documentRouter);
 
 const port = process.env.PORT || 5000;
@@ -38,4 +38,3 @@ const start = async () => {
 };
 
 start();
-
