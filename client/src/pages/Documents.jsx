@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Accordion, ServiceDocuments } from "../components";
-import { activeBtn } from "../redux/catalogueSlice";
+import { activeBtn } from "../redux/adminSlice";
 import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
 
 const Documents = () => {
-  const { search, allDocs } = useSelector((store) => store.doc);
-  const { activeCatalogue } = useSelector((store) => store.catalogue);
+  const { search } = useSelector((store) => store.doc);
+  const { activeCatalogue } = useSelector((store) => store.admin);
   const dispatch = useDispatch();
   const [all, setAll] = useState(false);
 
@@ -26,7 +26,7 @@ const Documents = () => {
   }, [all]);
 
   const getDocs = () => {
-    dispatch(activeBtn({ name: "", catalogue:"Services" }));
+    dispatch(activeBtn({ name: "", catalogue: "Services" }));
     dispatch(handleChange({ name: "search", value: "" }));
     setAll(!all);
   };

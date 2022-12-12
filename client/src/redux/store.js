@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import catalogueSlice from "./catalogueSlice";
+import catalogueSlice from "./adminSlice";
 import documentSlice from "./documentSlice";
 
 export const store = configureStore({
   reducer: {
-    catalogue: catalogueSlice,
+    admin: catalogueSlice,
     doc: documentSlice,
   },
 });

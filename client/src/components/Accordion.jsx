@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllCatalogue, activeBtn } from "../redux/catalogueSlice";
+import { getAllCatalogue, activeBtn } from "../redux/adminSlice";
 import { getServiceDocs } from "../redux/documentSlice";
 
 const Accordion = () => {
   const { loading, allCatalogue, activeService } = useSelector(
-    (store) => store.catalogue
+    (store) => store.admin
   );
   const dispatch = useDispatch();
 

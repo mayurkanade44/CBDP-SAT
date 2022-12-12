@@ -5,14 +5,30 @@ const initialState = {
   loading: false,
   allCatalogue: [],
   activeService: "",
-  activeCatalogue:"Services"
+  activeCatalogue: "Services",
+  catalogueType: "",
+  serviceName: "",
+  fileType: "",
 };
+
+export const addCatalogue = createAsyncThunk(
+  "catalogue/add",
+  async (catalogue, thunkAPI) => {
+    try {
+      const res = await axios.post("/admin/service", catalogue);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
 
 export const getAllCatalogue = createAsyncThunk(
   "catalogue/services",
   async (_, thunkAPI) => {
     try {
-      const res = await axios.get("/catalogue/service");
+      const res = await axios.get("/admin/service");
       return res.data;
     } catch (error) {
       console.log(error);
@@ -27,10 +43,22 @@ const catalogueSlice = createSlice({
   reducers: {
     activeBtn: (state, { payload: { name, catalogue } }) => {
       state.activeService = name;
-      state.activeCatalogue = catalogue
+      state.activeCatalogue = catalogue;
+    },
+    handleAdminChange: (state, { payload: { name, value } }) => {
+      state[name] = value;
     },
   },
   extraReducers: {
+    [addCatalogue.pending]: (state) => {
+      state.loading = true;
+    },
+    [addCatalogue.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+    },
+    [addCatalogue.rejected]: (state, { payload }) => {
+      state.loading = false;
+    },
     [getAllCatalogue.pending]: (state) => {
       state.loading = true;
     },
@@ -44,6 +72,6 @@ const catalogueSlice = createSlice({
   },
 });
 
-export const { activeBtn } = catalogueSlice.actions;
+export const { activeBtn, handleAdminChange } = catalogueSlice.actions;
 
 export default catalogueSlice.reducer;
