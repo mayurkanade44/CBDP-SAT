@@ -8,10 +8,6 @@ export const adminController = [
     name: "Add Document",
   },
   {
-    id: 3,
-    name: "Add Video",
-  },
-  {
     id: 4,
     name: "Add Service Type",
   },

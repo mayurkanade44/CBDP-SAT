@@ -12,6 +12,8 @@ export const addDocument = async (req, res) => {
       return res.status(400).json({ msg: "Please provide all values" });
     }
 
+    req.body.typeOfService = typeOfService.split(",");
+
     if (req.files) {
       const docFile = req.files.file;
       const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);

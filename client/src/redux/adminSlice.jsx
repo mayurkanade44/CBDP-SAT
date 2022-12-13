@@ -10,6 +10,8 @@ const initialState = {
   catalogueType: "",
   serviceName: "",
   fileType: "",
+  fileName: "",
+  videoUrl: "",
 };
 
 export const addCatalogue = createAsyncThunk(

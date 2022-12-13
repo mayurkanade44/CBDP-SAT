@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   docLoading: false,
@@ -9,6 +10,19 @@ const initialState = {
   emailTo: "",
   filesCart: {},
 };
+
+export const addDoc = createAsyncThunk(
+  "document/addDoc",
+  async (myForm, thunkAPI) => {
+    try {
+      const res = await axios.post("/documents/allDocs", myForm)
+      return res.data
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
 
 export const getAllDocs = createAsyncThunk(
   "document/allDocs",
@@ -78,6 +92,16 @@ const documentSlice = createSlice({
     },
   },
   extraReducers: {
+    [addDoc.pending]: (state) => {
+      state.loading = true;
+    },
+    [addDoc.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      toast.success(payload.msg)
+    },
+    [addDoc.rejected]: (state, { payload }) => {
+      state.loading = false;
+    },
     [getAllDocs.pending]: (state) => {
       state.docLoading = true;
     },

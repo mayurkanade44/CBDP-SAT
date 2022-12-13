@@ -29,6 +29,10 @@ header {
   padding: 0 !important;
 }
 
+.multiselect {
+  width: 200px !important;
+}
+
 header .logo {
   height: 70px;
   width: 100px;
