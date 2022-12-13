@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import menu from "../images/menu.png";
 import bag from "../images/bag.png";
 import colorBag from "../images/colorbag.png";
+import horse from "../images/horse.jpeg";
 
 import { useSelector } from "react-redux";
 
@@ -14,11 +15,14 @@ const Navbar = () => {
     <header>
       <nav className="navbar navbar-expand-lg mb-2">
         <div className="container-fluid">
-          <div className="mobile-nav">
-            <div className="nav-item">
+          <ul className="navbar-nav mobile-nav my-1">
+            <li className="nav-item">
+              <img src={horse} alt="horse" width={55} />
+            </li>
+            <li className="nav-item">
               <Link
                 to="/"
-                className="nav-link text-center"
+                className="text-center horse"
                 aria-current="page"
                 onClick={() => {
                   setExpand(false);
@@ -29,7 +33,8 @@ const Navbar = () => {
                   Cloud Based Document Portal
                 </p>
               </Link>
-            </div>
+            </li>
+
             <button
               className="navbar-toggler collapsed"
               aria-controls="navbarNav"
@@ -40,7 +45,7 @@ const Navbar = () => {
             >
               <img src={menu} alt="menu" style={{ width: 35 }} />
             </button>
-          </div>
+          </ul>
           <div
             className={`navbar-collapse ${!expand ? "collapse" : ""}`}
             id="navbarNav"
