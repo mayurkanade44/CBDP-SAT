@@ -14,8 +14,7 @@ const Admin = () => {
     fileName,
     videoUrl,
   } = useSelector((store) => store.admin);
-  const [showUser, setShowUser] = useState(false);
-  const [show, setShow] = useState("All User");
+  const [show, setShow] = useState("All Users");
   const [services, setServices] = useState([]);
   const [files, setFiles] = useState([]);
   const [value, setValue] = useState("");
@@ -62,27 +61,36 @@ const Admin = () => {
       myForm.set("typeOfService", value);
       myForm.set("name", fileName);
       myForm.append("file", fileType === "Videos" ? videoUrl : doc);
-
-      return dispatch(addDoc(myForm));
+      dispatch(addDoc(myForm));
+      return;
+    } else if (show === "Add Service Type") {
+      dispatch(addCatalogue({ catalogueType, serviceName }));
+      return;
+    } else if (show === "Add File Type") {
+      dispatch(addCatalogue({ catalogueType, fileType }));
+      return;
     }
-
-    // dispatch(addCatalogue({ catalogueType, serviceName }));
   };
 
   return (
     <div className="container-fluid ps-4">
-      <h3 className="text-center my-3 text-success">Admin Dashboard</h3>
+      <h3 className="text-center mb-3 text-success">Admin Dashboard</h3>
       <div className="row">
         <div className="col-2">
           <table className="table border border-3 ">
             <tbody className="text-center">
               {adminController.map((item) => {
                 return (
-                  <tr className="filter-button" key={item.id}>
+                  <tr
+                    className={`filter-button ${
+                      show === item.name ? "active" : null
+                    }`}
+                    key={item.id}
+                  >
                     <th>
                       <button
                         onClick={() => setShow(item.name)}
-                        className="btn"
+                        className={`btn `}
                       >
                         <b>{item.name}</b>
                       </button>
@@ -95,7 +103,7 @@ const Admin = () => {
         </div>
         <div className="col-10">
           <form className="row" onSubmit={handleSubmit}>
-            <div className="col-4">
+            <div className="col-4 mb-3">
               <InputSelect
                 label="Catalogue"
                 name="catalogueType"
@@ -111,12 +119,16 @@ const Admin = () => {
                 }
               />
             </div>
-            {show === "Add Service Type" && (
-              <div className="col-4">
+            {(show === "Add Service Type" || show === "Add File Type") && (
+              <div className="col-4 mb-3">
                 <InputRow
-                  label="Service Name"
-                  name="serviceName"
-                  value={serviceName}
+                  label={
+                    show === "Add Service Type" ? "Service Name" : "File Name"
+                  }
+                  name={
+                    show === "Add Service Type" ? "serviceName" : "fileType"
+                  }
+                  value={show === "Add Service Type" ? serviceName : fileType}
                   handleChange={(e) =>
                     dispatch(
                       handleAdminChange({
@@ -130,7 +142,7 @@ const Admin = () => {
             )}
             {show === "Add Document" && (
               <>
-                <div className="col-4">
+                <div className="col-4 mb-3">
                   <div className="row mt-2">
                     <div className="col-lg-3">
                       <h4 className="d-inline">Service</h4>
@@ -143,7 +155,7 @@ const Admin = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-4">
+                <div className="col-4 mb-3">
                   <InputSelect
                     label="File Type:"
                     name="fileType"

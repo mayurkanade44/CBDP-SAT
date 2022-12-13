@@ -42,8 +42,10 @@ const Accordion = () => {
             <tbody className="text-center">
               {allCatalogue &&
                 allCatalogue
-                  .filter((item) => item.catalogueType === "Services")
-                  .slice(1)
+                  .filter(
+                    (item) =>
+                      item.catalogueType === "Services" && item.serviceName
+                  )
                   .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
                   .map((service) => (
                     <tr
@@ -93,8 +95,10 @@ const Accordion = () => {
             <tbody className="text-center">
               {allCatalogue &&
                 allCatalogue
-                  .filter((item) => item.catalogueType === "Products")
-                  .slice(1)
+                  .filter(
+                    (item) =>
+                      item.catalogueType === "Products" && item.serviceName
+                  )
                   .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
                   .map((service) => (
                     <tr
@@ -143,8 +147,10 @@ const Accordion = () => {
             <tbody className="text-center">
               {allCatalogue &&
                 allCatalogue
-                  .filter((item) => item.catalogueType === "Companies")
-                  .slice(1)
+                  .filter(
+                    (item) =>
+                      item.catalogueType === "Companies" && item.serviceName
+                  )
                   .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
                   .map((service) => (
                     <tr
@@ -193,7 +199,7 @@ const Accordion = () => {
             <tbody className="text-center">
               {allCatalogue &&
                 allCatalogue
-                  .filter((item) => item.catalogueType === "Companies")
+                  .filter((item) => item.catalogueType === "STQ")
                   .map((service) => (
                     <tr
                       key={service._id}
