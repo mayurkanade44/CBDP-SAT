@@ -36,6 +36,45 @@ export const addDocument = async (req, res) => {
   }
 };
 
+export const editDocument = async (req, res) => {
+  const { id } = req.params;
+  const { typeOfCatalogue, typeOfService, typeOfFile, name } = req.body;
+  try {
+    const doc = await Document.findOne({ _id: id });
+    if (!doc) return res.status(404).json({ msg: "Given document not found" });
+
+    if (!typeOfCatalogue || !typeOfService || !typeOfFile || !name) {
+      return res.status(400).json({ msg: "Please provide all values" });
+    }
+
+    req.body.typeOfService = typeOfService.split(",");
+
+    if (req.files) {
+      const docFile = req.files.file;
+      const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
+      await docFile.mv(docPath);
+
+      const result = await cloudinary.uploader.upload(`files/${docFile.name}`, {
+        resource_type: "raw",
+        use_filename: true,
+        folder: "cbdp",
+      });
+      req.body.file = result.secure_url;
+      fs.unlinkSync(`./files/${docFile.name}`);
+    }
+
+    await Document.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    return res.status(200).json({ msg: "Updated successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
+
 export const getAllDocuments = async (req, res) => {
   const { search } = req.query;
   const queryObject = {};
