@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import FileViewer from "react-file-viewer";
-import { attachFile } from "../redux/documentSlice";
+import { attachFile, deleteDoc } from "../redux/documentSlice";
 import { Link } from "react-router-dom";
 import { setEditDoc } from "../redux/adminSlice";
 
@@ -85,6 +85,12 @@ const Card = ({
         >
           Edit
         </Link>
+        <button
+          className="btn btn-danger m-1"
+          onClick={() => dispatch(deleteDoc(_id))}
+        >
+          Delete
+        </button>
       </div>
     </motion.div>
   );

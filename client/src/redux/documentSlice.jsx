@@ -37,9 +37,23 @@ export const editDoc = createAsyncThunk(
   }
 );
 
+export const deleteDoc = createAsyncThunk(
+  "document/deleteDoc",
+  async (id, thunkAPI) => {
+    try {
+      const res = await axios.delete(`/documents/editDoc/${id}`);
+      thunkAPI.dispatch(getAllDocs(thunkAPI.getState().search));
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
 export const getAllDocs = createAsyncThunk(
   "document/allDocs",
-  async ({ search }, thunkAPI) => {
+  async (search, thunkAPI) => {
     try {
       let url = "/documents/allDocs";
       if (search) url = url + `?search=${search}`;
@@ -124,6 +138,17 @@ const documentSlice = createSlice({
       toast.success(payload.msg);
     },
     [editDoc.rejected]: (state, { payload }) => {
+      state.loading = false;
+      toast.error(payload);
+    },
+    [deleteDoc.pending]: (state) => {
+      state.loading = true;
+    },
+    [deleteDoc.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      toast.success(payload.msg);
+    },
+    [deleteDoc.rejected]: (state, { payload }) => {
       state.loading = false;
       toast.error(payload);
     },

@@ -75,6 +75,22 @@ export const editDocument = async (req, res) => {
   }
 };
 
+export const deleteDocument = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const doc = await Document.findOne({ _id: id });
+    if (!doc) return res.status(404).json({ msg: "Given document not found" });
+
+    const name = doc.name;
+    await doc.remove();
+
+    return res.status(200).json({ msg: `${name} has been deleted` });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
+
 export const getAllDocuments = async (req, res) => {
   const { search } = req.query;
   const queryObject = {};

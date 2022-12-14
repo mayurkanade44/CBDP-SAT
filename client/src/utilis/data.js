@@ -15,4 +15,8 @@ export const adminController = [
     id: 5,
     name: "Add File Type",
   },
+  {
+    id: 6,
+    name: "Send Mail Data",
+  },
 ];

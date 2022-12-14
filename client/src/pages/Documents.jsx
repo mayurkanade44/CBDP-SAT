@@ -23,7 +23,9 @@ const Documents = () => {
   }
 
   useEffect(() => {
-    dispatch(getAllDocs({ search }));
+    dispatch(getAllDocs(search));
+
+    // eslint-disable-next-line
   }, [all]);
 
   const getDocs = () => {
