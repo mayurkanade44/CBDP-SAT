@@ -17,11 +17,11 @@ UserSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.comparePasswords = async (password) => {
+UserSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-UserSchema.methods.createJWT = async () => {
+UserSchema.methods.createJWT = async function () {
   return jwt.sign(
     { userId: this._id, role: this.role },
     process.env.JWT_SECRET,
