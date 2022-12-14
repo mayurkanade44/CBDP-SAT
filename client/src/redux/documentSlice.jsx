@@ -15,8 +15,21 @@ export const addDoc = createAsyncThunk(
   "document/addDoc",
   async (myForm, thunkAPI) => {
     try {
-      const res = await axios.post("/documents/allDocs", myForm)
-      return res.data
+      const res = await axios.post("/documents/allDocs", myForm);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const editDoc = createAsyncThunk(
+  "document/editDoc",
+  async ({ editDocId, myForm }, thunkAPI) => {
+    try {
+      const res = await axios.patch(`/documents/editDoc/${editDocId}`, myForm);
+      return res.data;
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error.response.data.msg);
@@ -97,10 +110,22 @@ const documentSlice = createSlice({
     },
     [addDoc.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      toast.success(payload.msg)
+      toast.success(payload.msg);
     },
     [addDoc.rejected]: (state, { payload }) => {
       state.loading = false;
+      toast.error(payload);
+    },
+    [editDoc.pending]: (state) => {
+      state.loading = true;
+    },
+    [editDoc.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      toast.success(payload.msg);
+    },
+    [editDoc.rejected]: (state, { payload }) => {
+      state.loading = false;
+      toast.error(payload);
     },
     [getAllDocs.pending]: (state) => {
       state.docLoading = true;

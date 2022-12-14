@@ -11,7 +11,10 @@ const initialState = {
   serviceName: "",
   fileType: "",
   fileName: "",
-  videoUrl: "",
+  isEditing: false,
+  editDocId: "",
+  show: "All Users",
+  file: "",
 };
 
 export const addCatalogue = createAsyncThunk(
@@ -56,6 +59,16 @@ const catalogueSlice = createSlice({
       state.catalogueType = "";
       state.serviceName = "";
       state.fileType = "";
+      state.editDocId = "";
+      state.file = "";
+      state.fileName = "";
+      state.isEditing = false;
+    },
+    setEditDoc: (state, { payload }) => {
+      return { ...state, isEditing: true, show: "Add Document", ...payload };
+    },
+    setShow: (state, { payload }) => {
+      state.show = payload;
     },
   },
   extraReducers: {
@@ -84,7 +97,12 @@ const catalogueSlice = createSlice({
   },
 });
 
-export const { activeBtn, handleAdminChange, clearAdminValues } =
-  catalogueSlice.actions;
+export const {
+  activeBtn,
+  handleAdminChange,
+  clearAdminValues,
+  setEditDoc,
+  setShow,
+} = catalogueSlice.actions;
 
 export default catalogueSlice.reducer;

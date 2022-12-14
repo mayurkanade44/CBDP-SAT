@@ -3,8 +3,17 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import FileViewer from "react-file-viewer";
 import { attachFile } from "../redux/documentSlice";
+import { Link } from "react-router-dom";
+import { setEditDoc } from "../redux/adminSlice";
 
-const Card = ({ typeOfFile, name, typeOfService, file }) => {
+const Card = ({
+  typeOfFile,
+  typeOfCatalogue,
+  name,
+  typeOfService,
+  file,
+  _id,
+}) => {
   const [view, setView] = useState(false);
   const [type, setType] = useState("");
   const dispatch = useDispatch();
@@ -58,6 +67,24 @@ const Card = ({ typeOfFile, name, typeOfService, file }) => {
         >
           Attach
         </button>
+        <Link
+          to="/admin"
+          className="btn btn-warning m-1"
+          onClick={() =>
+            dispatch(
+              setEditDoc({
+                fileName: name,
+                fileType: typeOfFile,
+                serviceName: typeOfService,
+                catalogueType: typeOfCatalogue,
+                file,
+                editDocId: _id,
+              })
+            )
+          }
+        >
+          Edit
+        </Link>
       </div>
     </motion.div>
   );

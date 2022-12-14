@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InputRow, InputSelect, Multiselect } from "../components";
-import { addCatalogue, handleAdminChange } from "../redux/adminSlice";
-import { addDoc, handleChange } from "../redux/documentSlice";
+import { addCatalogue, handleAdminChange, setShow } from "../redux/adminSlice";
+import { addDoc, editDoc, handleChange } from "../redux/documentSlice";
 import { adminController } from "../utilis/data";
 
 const Admin = () => {
@@ -13,8 +13,11 @@ const Admin = () => {
     fileType,
     fileName,
     videoUrl,
+    show,
+    editDocId,
+    isEditing,
+    file,
   } = useSelector((store) => store.admin);
-  const [show, setShow] = useState("All Users");
   const [services, setServices] = useState([]);
   const [files, setFiles] = useState([]);
   const [value, setValue] = useState("");
@@ -60,8 +63,15 @@ const Admin = () => {
       myForm.set("typeOfFile", fileType);
       myForm.set("typeOfService", value);
       myForm.set("name", fileName);
-      myForm.append("file", fileType === "Videos" ? videoUrl : doc);
-      dispatch(addDoc(myForm));
+
+      if (isEditing) {
+        myForm.append("file", doc ? doc : file);
+        dispatch(editDoc({ editDocId, myForm }));
+      } else {
+        myForm.append("file", fileType === "Videos" ? file : doc);
+        dispatch(addDoc(myForm));
+      }
+
       return;
     } else if (show === "Add Service Type") {
       dispatch(addCatalogue({ catalogueType, serviceName }));
@@ -89,7 +99,7 @@ const Admin = () => {
                   >
                     <th>
                       <button
-                        onClick={() => setShow(item.name)}
+                        onClick={() => dispatch(setShow(item.name))}
                         className={`btn `}
                       >
                         <b>{item.name}</b>
@@ -190,8 +200,8 @@ const Admin = () => {
                   {fileType === "Videos" ? (
                     <InputRow
                       label="Video URL"
-                      name="videoUrl"
-                      value={videoUrl}
+                      name="file"
+                      value={file}
                       handleChange={(e) =>
                         dispatch(
                           handleAdminChange({
@@ -205,7 +215,7 @@ const Admin = () => {
                     <input
                       type="file"
                       onChange={(e) => setDoc(e.target.files[0])}
-                      required
+                      required={isEditing ? false : true}
                     />
                   )}
                 </div>
