@@ -4,12 +4,19 @@ import menu from "../images/menu.png";
 import bag from "../images/bag.png";
 import colorBag from "../images/colorbag.png";
 import horse from "../images/horse.jpeg";
-
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { handleUserChange, userLogin } from "../redux/userSlice";
 
 const Navbar = () => {
   const [expand, setExpand] = useState(false);
   const { filesCart } = useSelector((store) => store.doc);
+  const { user, email, password } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(userLogin({ email, password }));
+  };
 
   return (
     <header>
@@ -50,90 +57,138 @@ const Navbar = () => {
             className={`navbar-collapse ${!expand ? "collapse" : ""}`}
             id="navbarNav"
           >
-            <ul className="navbar-nav mx-auto">
-              <li className="nav-item">
-                <Link
-                  to="/documents"
-                  className="nav-link text-center"
-                  aria-current="page"
-                  onClick={() => {
-                    setExpand(false);
-                  }}
-                >
-                  <h5>Documents</h5>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/"
-                  className="nav-link text-center"
-                  aria-current="page"
-                  onClick={() => {
-                    setExpand(false);
-                  }}
-                >
-                  <h5>Service Cards</h5>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/"
-                  className="nav-link text-center"
-                  aria-current="page"
-                  onClick={() => {
-                    setExpand(false);
-                  }}
-                >
-                  <h5>Upskill</h5>
-                </Link>
-              </li>
-            </ul>
-            <ul></ul>
-            <ul className="navbar-nav ms-auto prof">
-              <li className="nav-link cart" style={{ margin: 0 }}>
-                <button
-                  className="btn position-relative"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseExample"
-                  aria-expanded="false"
-                  aria-controls="collapseExample"
-                  style={{ paddingTop: 0 }}
-                >
-                  <img
-                    src={Object.keys(filesCart).length > 0 ? colorBag : bag}
-                    alt="cart"
-                    style={{ width: 32 }}
-                  />
-                  {Object.keys(filesCart).length > 0 && (
-                    <span className="position-absolute top-25 start-75 translate-middle badge cart-badge rounded-pill bg-dark">
-                      {Object.keys(filesCart).length}
-                    </span>
-                  )}
-                </button>
-              </li>
-              <li className="nav-item dropdown">
-                <button
-                  className="nav-link dropdown-toggle btn"
-                  id="navbarDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  style={{ marginLeft: 0, marginTop: 2 }}
-                >
-                  <h5 className="d-inline">Mayur</h5>
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <Link to="/admin" className="dropdown-item">
-                      Admin
+            {user && (
+              <>
+                <ul className="navbar-nav mx-auto">
+                  <li className="nav-item">
+                    <Link
+                      to="/documents"
+                      className="nav-link text-center"
+                      aria-current="page"
+                      onClick={() => {
+                        setExpand(false);
+                      }}
+                    >
+                      <h5>Documents</h5>
                     </Link>
                   </li>
-                  <hr />
-                  <li>
-                    <button className="dropdown-item">Logout</button>
+                  <li className="nav-item">
+                    <Link
+                      to="/"
+                      className="nav-link text-center"
+                      aria-current="page"
+                      onClick={() => {
+                        setExpand(false);
+                      }}
+                    >
+                      <h5>Service Cards</h5>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/"
+                      className="nav-link text-center"
+                      aria-current="page"
+                      onClick={() => {
+                        setExpand(false);
+                      }}
+                    >
+                      <h5>Upskill</h5>
+                    </Link>
                   </li>
                 </ul>
-              </li>
+              </>
+            )}
+            <ul className="navbar-nav ms-auto prof">
+              {user ? (
+                <>
+                  <li className="nav-link cart" style={{ margin: 0 }}>
+                    <button
+                      className="btn position-relative"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseExample"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                      style={{ paddingTop: 0 }}
+                    >
+                      <img
+                        src={Object.keys(filesCart).length > 0 ? colorBag : bag}
+                        alt="cart"
+                        style={{ width: 32 }}
+                      />
+                      {Object.keys(filesCart).length > 0 && (
+                        <span className="position-absolute top-25 start-75 translate-middle badge cart-badge rounded-pill bg-dark">
+                          {Object.keys(filesCart).length}
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                  <li className="nav-item dropdown">
+                    <button
+                      className="nav-link dropdown-toggle btn"
+                      id="navbarDropdown"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      style={{ marginLeft: 0, marginTop: 2 }}
+                    >
+                      <h5 className="d-inline">Mayur</h5>
+                    </button>
+                    <ul
+                      className="dropdown-menu"
+                      aria-labelledby="navbarDropdown"
+                    >
+                      <li>
+                        <Link to="/admin" className="dropdown-item">
+                          Admin
+                        </Link>
+                      </li>
+                      <hr />
+                      <li>
+                        <button className="dropdown-item">Logout</button>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              ) : (
+                <form className="d-flex ms-auto" onSubmit={handleSubmit}>
+                  <input
+                    className="form-control me-2"
+                    type="email"
+                    placeholder="abc@xyz.com"
+                    name="email"
+                    value={email}
+                    onChange={(e) =>
+                      dispatch(
+                        handleUserChange({
+                          name: e.target.name,
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                    required
+                  />
+                  <input
+                    className="form-control me-2"
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={password}
+                    onChange={(e) =>
+                      dispatch(
+                        handleUserChange({
+                          name: e.target.name,
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                    required
+                  />
+                  <button className="btn btn-outline-success" type="submit">
+                    Login
+                  </button>
+                </form>
+              )}
             </ul>
           </div>
         </div>
