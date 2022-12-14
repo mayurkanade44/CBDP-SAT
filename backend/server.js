@@ -16,6 +16,7 @@ cloudinary.config({
 
 import documentRouter from "./routes/DocumentRoute.js";
 import adminRouter from "./routes/AdminRoute.js";
+import authRouter from "./routes/UserRoute.js";
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
@@ -26,6 +27,7 @@ app.use(fileUpload({ useTempFiles: true }));
 
 app.use("/api/admin", adminRouter);
 app.use("/api/documents", documentRouter);
+app.use("/api/user", authRouter);
 
 const port = process.env.PORT || 5000;
 const start = async () => {
