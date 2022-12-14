@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { InputRow } from "../components";
+import { toast } from "react-toastify";
+import { InputRow } from ".";
 import { handleChange, removeFile, sendMail } from "../redux/documentSlice";
 
 const Attach = () => {
@@ -11,9 +12,9 @@ const Attach = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (Object.entries(filesCart).length === 0) {
-      return console.log("Please attach file");
+      return toast.error("Please attach files.")
     }
-    // dispatch(sendMail({ emailTo, filesCart }));
+    dispatch(sendMail({ emailTo, filesCart }));
     setCollapseButton("collapse");
   };
 

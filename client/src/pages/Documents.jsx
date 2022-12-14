@@ -1,10 +1,8 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Accordion, ServiceDocuments } from "../components";
+import { Accordion, ServiceDocuments, Attach } from "../components";
 import { activeBtn } from "../redux/adminSlice";
 import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
-import Attach from "./Attach";
 
 const Documents = () => {
   const { search } = useSelector((store) => store.doc);
