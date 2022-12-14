@@ -71,29 +71,30 @@ const catalogueSlice = createSlice({
       state.show = payload;
     },
   },
-  extraReducers: {
-    [addCatalogue.pending]: (state) => {
-      state.loading = true;
-    },
-    [addCatalogue.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      toast.success(payload.msg);
-    },
-    [addCatalogue.rejected]: (state, { payload }) => {
-      state.loading = false;
-      toast.error(payload);
-    },
-    [getAllCatalogue.pending]: (state) => {
-      state.loading = true;
-    },
-    [getAllCatalogue.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.allCatalogue = payload.services;
-    },
-    [getAllCatalogue.rejected]: (state, { payload }) => {
-      state.loading = false;
-      toast.error(payload);
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addCatalogue.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addCatalogue.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        toast.success(payload.msg);
+      })
+      .addCase(addCatalogue.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(getAllCatalogue.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllCatalogue.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.allCatalogue = payload.services;
+      })
+      .addCase(getAllCatalogue.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      });
   },
 });
 

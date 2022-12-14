@@ -118,73 +118,74 @@ const documentSlice = createSlice({
       };
     },
   },
-  extraReducers: {
-    [addDoc.pending]: (state) => {
-      state.loading = true;
-    },
-    [addDoc.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      toast.success(payload.msg);
-    },
-    [addDoc.rejected]: (state, { payload }) => {
-      state.loading = false;
-      toast.error(payload);
-    },
-    [editDoc.pending]: (state) => {
-      state.loading = true;
-    },
-    [editDoc.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      toast.success(payload.msg);
-    },
-    [editDoc.rejected]: (state, { payload }) => {
-      state.loading = false;
-      toast.error(payload);
-    },
-    [deleteDoc.pending]: (state) => {
-      state.loading = true;
-    },
-    [deleteDoc.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      toast.success(payload.msg);
-    },
-    [deleteDoc.rejected]: (state, { payload }) => {
-      state.loading = false;
-      toast.error(payload);
-    },
-    [getAllDocs.pending]: (state) => {
-      state.docLoading = true;
-    },
-    [getAllDocs.fulfilled]: (state, { payload }) => {
-      state.docLoading = false;
-      state.allDocs = payload.documents;
-      state.serviceDocs = payload.documents;
-    },
-    [getAllDocs.rejected]: (state, { payload }) => {
-      state.loading = false;
-    },
-    [getServiceDocs.pending]: (state) => {
-      state.docLoading = true;
-    },
-    [getServiceDocs.fulfilled]: (state, { payload }) => {
-      state.docLoading = false;
-      state.allDocs = payload.serviceDoc;
-      state.serviceDocs = payload.serviceDoc;
-    },
-    [getServiceDocs.rejected]: (state, { payload }) => {
-      state.loading = false;
-    },
-    [sendMail.pending]: (state) => {
-      state.docLoading = true;
-    },
-    [sendMail.fulfilled]: (state, { payload }) => {
-      state.docLoading = false;
-      console.log(payload.msg);
-    },
-    [sendMail.rejected]: (state, { payload }) => {
-      state.docLoading = false;
-      console.log(payload.msg);
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addDoc.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addDoc.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        toast.success(payload.msg);
+      })
+      .addCase(addDoc.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(editDoc.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(editDoc.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        toast.success(payload.msg);
+      })
+      .addCase(editDoc.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(deleteDoc.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteDoc.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        toast.success(payload.msg);
+      })
+      .addCase(deleteDoc.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(getAllDocs.pending, (state) => {
+        state.docLoading = true;
+      })
+      .addCase(getAllDocs.fulfilled, (state, { payload }) => {
+        state.docLoading = false;
+        state.allDocs = payload.documents;
+        state.serviceDocs = payload.documents;
+      })
+      .addCase(getAllDocs.rejected, (state, { payload }) => {
+        state.loading = false;
+      })
+      .addCase(getServiceDocs.pending, (state) => {
+        state.docLoading = true;
+      })
+      .addCase(getServiceDocs.fulfilled, (state, { payload }) => {
+        state.docLoading = false;
+        state.allDocs = payload.serviceDoc;
+        state.serviceDocs = payload.serviceDoc;
+      })
+      .addCase(getServiceDocs.rejected, (state, { payload }) => {
+        state.loading = false;
+      })
+      .addCase(sendMail.pending, (state) => {
+        state.docLoading = true;
+      })
+      .addCase(sendMail.fulfilled, (state, { payload }) => {
+        state.docLoading = false;
+        toast.success(payload.msg);
+      })
+      .addCase(sendMail.rejected, (state, { payload }) => {
+        state.docLoading = false;
+        toast.error(payload);
+      });
   },
 });
 
