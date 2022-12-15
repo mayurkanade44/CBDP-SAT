@@ -98,8 +98,21 @@ export const getAllDocuments = async (req, res) => {
     queryObject.name = { $regex: search, $options: "i" };
   }
   try {
-    const documents = await Document.find(queryObject).sort("-createdAt");
+    const documents = await Document.find(queryObject);
     return res.status(200).json({ documents });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
+
+export const getLatestDocs = async (req, res) => {
+  try {
+    const docs = await Document.find()
+      .select("name")
+      .sort("-createdAt");
+    const latestDocs = docs.slice(0, 3);
+    res.status(200).json({ latestDocs });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later" });

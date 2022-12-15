@@ -9,6 +9,7 @@ const initialState = {
   search: "",
   emailTo: "",
   filesCart: {},
+  newDocs: [],
 };
 
 export const addDoc = createAsyncThunk(
@@ -85,6 +86,19 @@ export const sendMail = createAsyncThunk(
     try {
       const res = await axios.post("/documents/sendMail", mail);
       thunkAPI.dispatch(clearValues());
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const latestDocs = createAsyncThunk(
+  "document/latest",
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get("/documents/latestDocs");
       return res.data;
     } catch (error) {
       console.log(error);
@@ -185,6 +199,16 @@ const documentSlice = createSlice({
       .addCase(sendMail.rejected, (state, { payload }) => {
         state.docLoading = false;
         toast.error(payload);
+      })
+      .addCase(latestDocs.pending, (state) => {
+        state.docLoading = true;
+      })
+      .addCase(latestDocs.fulfilled, (state, { payload }) => {
+        state.docLoading = false;
+        state.newDocs = payload.latestDocs;
+      })
+      .addCase(latestDocs.rejected, (state, { payload }) => {
+        state.docLoading = false;
       });
   },
 });
