@@ -12,7 +12,6 @@ const Admin = () => {
     catalogueType,
     fileType,
     fileName,
-    videoUrl,
     show,
     editDocId,
     isEditing,
@@ -115,7 +114,7 @@ const Admin = () => {
           <form className="row" onSubmit={handleSubmit}>
             <div className="col-4 mb-3">
               <InputSelect
-                label="Catalogue"
+                label="Heading"
                 name="catalogueType"
                 value={catalogueType}
                 data={["Select", ...catalogues]}
@@ -133,7 +132,7 @@ const Admin = () => {
               <div className="col-4 mb-3">
                 <InputRow
                   label={
-                    show === "Add Service Type" ? "Service Name" : "File Name"
+                    show === "Add Service Type" ? `${catalogueType} Name` : "File Name"
                   }
                   name={
                     show === "Add Service Type" ? "serviceName" : "fileType"
@@ -154,8 +153,8 @@ const Admin = () => {
               <>
                 <div className="col-4 mb-3">
                   <div className="row mt-2">
-                    <div className="col-lg-3">
-                      <h4 className="d-inline">Service</h4>
+                    <div className="col-lg-4">
+                      <h4 className="d-inline">{catalogueType}</h4>
                     </div>
                     <div className="col-lg-5">
                       <Multiselect

@@ -99,97 +99,95 @@ const Navbar = () => {
                 </ul>
               </>
             )}
-            <ul className="navbar-nav ms-auto prof">
-              {user ? (
-                <>
-                  <li className="nav-link cart" style={{ margin: 0 }}>
-                    <button
-                      className="btn position-relative"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseExample"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                      style={{ paddingTop: 0 }}
-                    >
-                      <img
-                        src={Object.keys(filesCart).length > 0 ? colorBag : bag}
-                        alt="cart"
-                        style={{ width: 32 }}
-                      />
-                      {Object.keys(filesCart).length > 0 && (
-                        <span className="position-absolute top-25 start-75 translate-middle badge cart-badge rounded-pill bg-dark">
-                          {Object.keys(filesCart).length}
-                        </span>
-                      )}
-                    </button>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <button
-                      className="nav-link dropdown-toggle btn"
-                      id="navbarDropdown"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      style={{ marginLeft: 0, marginTop: 2 }}
-                    >
-                      <h5 className="d-inline">Mayur</h5>
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby="navbarDropdown"
-                    >
-                      <li>
-                        <Link to="/admin" className="dropdown-item">
-                          Admin
-                        </Link>
-                      </li>
-                      <hr />
-                      <li>
-                        <button className="dropdown-item">Logout</button>
-                      </li>
-                    </ul>
-                  </li>
-                </>
-              ) : (
-                <form className="d-flex ms-auto" onSubmit={handleSubmit}>
-                  <input
-                    className="form-control me-2"
-                    type="email"
-                    placeholder="abc@xyz.com"
-                    name="email"
-                    value={email}
-                    onChange={(e) =>
-                      dispatch(
-                        handleUserChange({
-                          name: e.target.name,
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                    required
-                  />
-                  <input
-                    className="form-control me-2"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={(e) =>
-                      dispatch(
-                        handleUserChange({
-                          name: e.target.name,
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                    required
-                  />
-                  <button className="btn btn-outline-success" type="submit">
-                    Login
+            {user ? (
+              <ul className="navbar-nav ms-auto prof">
+                <li className="nav-link cart" style={{ margin: 0 }}>
+                  <button
+                    className="btn position-relative"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                    style={{ paddingTop: 0 }}
+                  >
+                    <img
+                      src={Object.keys(filesCart).length > 0 ? colorBag : bag}
+                      alt="cart"
+                      style={{ width: 32 }}
+                    />
+                    {Object.keys(filesCart).length > 0 && (
+                      <span className="position-absolute top-25 start-75 translate-middle badge cart-badge rounded-pill bg-dark">
+                        {Object.keys(filesCart).length}
+                      </span>
+                    )}
                   </button>
-                </form>
-              )}
-            </ul>
+                </li>
+                <li className="nav-item dropdown">
+                  <button
+                    className="nav-link dropdown-toggle btn"
+                    id="navbarDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    style={{ marginLeft: 0, marginTop: 2 }}
+                  >
+                    <h5 className="d-inline">Mayur</h5>
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <li>
+                      <Link to="/admin" className="dropdown-item">
+                        Admin
+                      </Link>
+                    </li>
+                    <hr />
+                    <li>
+                      <button className="dropdown-item">Logout</button>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            ) : (
+              <form className="d-flex ms-auto" onSubmit={handleSubmit}>
+                <input
+                  className="form-control me-2"
+                  type="email"
+                  placeholder="abc@xyz.com"
+                  name="email"
+                  value={email}
+                  onChange={(e) =>
+                    dispatch(
+                      handleUserChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                  required
+                />
+                <input
+                  className="form-control me-2"
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={password}
+                  onChange={(e) =>
+                    dispatch(
+                      handleUserChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                  required
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  Login
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </nav>
