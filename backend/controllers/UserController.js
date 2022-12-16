@@ -13,7 +13,10 @@ export const registerUser = async (req, res) => {
     }
 
     const user = await User.create(req.body);
-    res.status(201).json({ msg: `${user.name} has been registered` });
+
+    const users = await User.find().select("-password");
+
+    res.status(201).json({ msg: `${user.name} has been registered`, users });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later" });

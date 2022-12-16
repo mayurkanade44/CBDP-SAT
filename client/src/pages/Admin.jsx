@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InputRow, InputSelect, Multiselect } from "../components";
-import { addCatalogue, handleAdminChange, setShow } from "../redux/adminSlice";
-import { addDoc, editDoc, handleChange } from "../redux/documentSlice";
+import {
+  addCatalogue,
+  getAllCatalogue,
+  handleAdminChange,
+  setShow,
+} from "../redux/adminSlice";
+import { addDoc, editDoc } from "../redux/documentSlice";
+import {
+  getAllUsers,
+  handleUserChange,
+  userRegister,
+} from "../redux/userSlice";
 import { adminController } from "../utilis/data";
 
 const Admin = () => {
@@ -17,6 +27,10 @@ const Admin = () => {
     isEditing,
     file,
   } = useSelector((store) => store.admin);
+  const { allUsers, name, password, role, email } = useSelector(
+    (store) => store.user
+  );
+  const [register, setRegister] = useState(false);
   const [services, setServices] = useState([]);
   const [files, setFiles] = useState([]);
   const [value, setValue] = useState("");
@@ -50,7 +64,16 @@ const Admin = () => {
 
     setServices(serv);
     setFiles(file);
+
+    // eslint-disable-next-line'
   }, [catalogueType]);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+    dispatch(getAllCatalogue());
+
+    // eslint-disable-next-line
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,7 +93,6 @@ const Admin = () => {
         myForm.append("file", fileType === "Videos" ? file : doc);
         dispatch(addDoc(myForm));
       }
-
       return;
     } else if (show === "Add Service Type") {
       dispatch(addCatalogue({ catalogueType, serviceName }));
@@ -79,6 +101,11 @@ const Admin = () => {
       dispatch(addCatalogue({ catalogueType, fileType }));
       return;
     }
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    dispatch(userRegister({ name, email, password, role }));
   };
 
   return (
@@ -111,28 +138,138 @@ const Admin = () => {
           </table>
         </div>
         <div className="col-10">
+          <button
+            onClick={() => setRegister(!register)}
+            className="btn btn-success"
+          >
+            {register ? "Back" : "Register User"}
+          </button>
+          {show === "All Users" && !register && (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Delete</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {allUsers?.map((user) => (
+                  <tr key={user._id}>
+                    <td>{user.name}</td>
+                    <td>{user.role}</td>
+                    {user.role !== "Admin" && (
+                      <td>
+                        <button className="btn btn-danger">Remove User</button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {register && (
+            <form className="row" onSubmit={handleRegisterSubmit}>
+              <div className="col-5">
+                <InputRow
+                  label="Name"
+                  name="name"
+                  value={name}
+                  handleChange={(e) =>
+                    dispatch(
+                      handleUserChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                />
+              </div>
+              <div className="col-4 mb-3">
+                <InputSelect
+                  label="Role:"
+                  name="role"
+                  value={role}
+                  data={["Select", "User", "Admin", "Stakeholder"]}
+                  handleChange={(e) =>
+                    dispatch(
+                      handleUserChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                />
+              </div>
+              <div className="col-4">
+                <InputRow
+                  label="User Email"
+                  type="email"
+                  name="email"
+                  value={email}
+                  placeholder="abc@xyz.com"
+                  handleChange={(e) =>
+                    dispatch(
+                      handleUserChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                />
+              </div>
+              <div className="col-4">
+                <InputRow
+                  label="Password"
+                  name="password"
+                  value={password}
+                  handleChange={(e) =>
+                    dispatch(
+                      handleUserChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                />
+              </div>
+              <div className="col-auto mt-1">
+                <button type="submit" className="btn btn-primary">
+                  Register
+                </button>
+              </div>
+            </form>
+          )}
+
           <form className="row" onSubmit={handleSubmit}>
-            <div className="col-4 mb-3">
-              <InputSelect
-                label="Heading"
-                name="catalogueType"
-                value={catalogueType}
-                data={["Select", ...catalogues]}
-                handleChange={(e) =>
-                  dispatch(
-                    handleAdminChange({
-                      name: e.target.name,
-                      value: e.target.value,
-                    })
-                  )
-                }
-              />
-            </div>
+            {(show === "Add Document" ||
+              show === "Add Service Type" ||
+              show === "Add File Type") && (
+              <div className="col-4 mb-3">
+                <InputSelect
+                  label="Heading"
+                  name="catalogueType"
+                  value={catalogueType}
+                  data={["Select", ...catalogues]}
+                  handleChange={(e) =>
+                    dispatch(
+                      handleAdminChange({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                />
+              </div>
+            )}
             {(show === "Add Service Type" || show === "Add File Type") && (
               <div className="col-4 mb-3">
                 <InputRow
                   label={
-                    show === "Add Service Type" ? `${catalogueType} Name` : "File Name"
+                    show === "Add Service Type"
+                      ? `${catalogueType} Name`
+                      : "File Name"
                   }
                   name={
                     show === "Add Service Type" ? "serviceName" : "fileType"
@@ -154,7 +291,7 @@ const Admin = () => {
                 <div className="col-4 mb-3">
                   <div className="row mt-2">
                     <div className="col-lg-4">
-                      <h4 className="d-inline">{catalogueType}</h4>
+                      <h4 className="d-inline">{catalogueType || "Name"}</h4>
                     </div>
                     <div className="col-lg-5">
                       <Multiselect
@@ -220,11 +357,13 @@ const Admin = () => {
                 </div>
               </>
             )}
-            <div className="col-auto">
-              <button className="btn btn-primary mt-1" type="submit">
-                Save
-              </button>
-            </div>
+            {show !== "All Users" && (
+              <div className="col-auto">
+                <button className="btn btn-primary mt-1" type="submit">
+                  Save
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>
