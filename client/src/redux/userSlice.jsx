@@ -50,7 +50,7 @@ export const getAllUsers = createAsyncThunk("user/all", async (_, thunkAPI) => {
   }
 });
 
-export const deleteUser = createAsyncThunk(
+export const userDelete = createAsyncThunk(
   "user/delete",
   async (id, thunkAPI) => {
     try {
@@ -114,14 +114,15 @@ const userSlice = createSlice({
         state.userLoading = false;
         toast.error(payload);
       })
-      .addCase(deleteUser.pending, (state) => {
+      .addCase(userDelete.pending, (state) => {
         state.userLoading = true;
       })
-      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+      .addCase(userDelete.fulfilled, (state, { payload }) => {
         state.userLoading = false;
+        state.allUsers = payload.users;
         toast.success(payload.msg);
       })
-      .addCase(deleteUser.rejected, (state, { payload }) => {
+      .addCase(userDelete.rejected, (state, { payload }) => {
         state.userLoading = false;
         toast.error(payload.msg);
       });

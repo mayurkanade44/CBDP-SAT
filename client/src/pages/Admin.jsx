@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { InputRow, InputSelect, Multiselect } from "../components";
 import {
   addCatalogue,
@@ -11,6 +12,7 @@ import { addDoc, editDoc } from "../redux/documentSlice";
 import {
   getAllUsers,
   handleUserChange,
+  userDelete,
   userRegister,
 } from "../redux/userSlice";
 import { adminController } from "../utilis/data";
@@ -27,14 +29,17 @@ const Admin = () => {
     isEditing,
     file,
   } = useSelector((store) => store.admin);
+
   const { allUsers, name, password, role, email } = useSelector(
     (store) => store.user
   );
+
   const [register, setRegister] = useState(false);
   const [services, setServices] = useState([]);
   const [files, setFiles] = useState([]);
   const [value, setValue] = useState("");
   const [doc, setDoc] = useState("");
+  const [code, setCode] = useState("");
   const dispatch = useDispatch();
 
   let catalogues = [];
@@ -65,7 +70,7 @@ const Admin = () => {
     setServices(serv);
     setFiles(file);
 
-    // eslint-disable-next-line'
+    // eslint-disable-next-line
   }, [catalogueType]);
 
   useEffect(() => {
@@ -105,7 +110,12 @@ const Admin = () => {
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
-    dispatch(userRegister({ name, email, password, role }));
+    if (role !== "Stakeholder")
+      return dispatch(userRegister({ name, email, password, role }));
+    if (code === "epcorn@2022") {
+      return dispatch(userRegister({ name, email, password, role }));
+    }
+    toast.error("Please enter valid code");
   };
 
   return (
@@ -126,7 +136,7 @@ const Admin = () => {
                     <th>
                       <button
                         onClick={() => dispatch(setShow(item.name))}
-                        className={`btn `}
+                        className="btn"
                       >
                         <b>{item.name}</b>
                       </button>
@@ -151,7 +161,6 @@ const Admin = () => {
                   <th>Name</th>
                   <th>Role</th>
                   <th>Delete</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -159,11 +168,16 @@ const Admin = () => {
                   <tr key={user._id}>
                     <td>{user.name}</td>
                     <td>{user.role}</td>
-                    {user.role !== "Admin" && (
-                      <td>
-                        <button className="btn btn-danger">Remove User</button>
-                      </td>
-                    )}
+                    <td>
+                      {user.role !== "Admin" && (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => dispatch(userDelete(user._id))}
+                        >
+                          Remove User
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -186,7 +200,7 @@ const Admin = () => {
                   }
                 />
               </div>
-              <div className="col-4 mb-3">
+              <div className="col-3 mb-3">
                 <InputSelect
                   label="Role:"
                   name="role"
@@ -201,6 +215,18 @@ const Admin = () => {
                     )
                   }
                 />
+              </div>
+
+              <div className="col-3">
+                {role === "Stakeholder" && (
+                  <InputRow
+                    label="Code"
+                    type="text"
+                    name="code"
+                    value={code}
+                    handleChange={(e) => setCode(e.target.value)}
+                  />
+                )}
               </div>
               <div className="col-4">
                 <InputRow

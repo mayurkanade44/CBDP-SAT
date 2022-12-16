@@ -75,7 +75,8 @@ export const deleteUser = async (req, res) => {
     const name = user.name;
     await user.remove();
 
-    res.status(200).json({ msg: `${name} has been removed` });
+    const users = await User.find().select("-password");
+    res.status(200).json({ msg: `${name} has been removed`, users });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later" });
