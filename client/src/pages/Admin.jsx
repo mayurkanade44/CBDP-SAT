@@ -118,6 +118,11 @@ const Admin = () => {
     toast.error("Please enter valid code");
   };
 
+  const showForm = (id) => {
+    dispatch(setShow(id));
+    setRegister(false)
+  };
+
   return (
     <div className="container-fluid ps-4">
       <h3 className="text-center mb-3 text-success">Admin Dashboard</h3>
@@ -135,7 +140,7 @@ const Admin = () => {
                   >
                     <th>
                       <button
-                        onClick={() => dispatch(setShow(item.name))}
+                        onClick={() => showForm(item.name)}
                         className="btn"
                       >
                         <b>{item.name}</b>
@@ -148,40 +153,42 @@ const Admin = () => {
           </table>
         </div>
         <div className="col-10">
-          <button
-            onClick={() => setRegister(!register)}
-            className="btn btn-success"
-          >
-            {register ? "Back" : "Register User"}
-          </button>
-          {show === "All Users" && !register && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allUsers?.map((user) => (
-                  <tr key={user._id}>
-                    <td>{user.name}</td>
-                    <td>{user.role}</td>
-                    <td>
-                      {user.role !== "Admin" && (
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => dispatch(userDelete(user._id))}
-                        >
-                          Remove User
-                        </button>
-                      )}
-                    </td>
+          {show === "All Users" && (
+            <>
+              <button
+                onClick={() => setRegister(!register)}
+                className="btn btn-success"
+              >
+                {register ? "Back" : "Register User"}
+              </button>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Delete</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {allUsers?.map((user) => (
+                    <tr key={user._id}>
+                      <td>{user.name}</td>
+                      <td>{user.role}</td>
+                      <td>
+                        {user.role !== "Admin" && (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => dispatch(userDelete(user._id))}
+                          >
+                            Remove User
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
           )}
           {register && (
             <form className="row" onSubmit={handleRegisterSubmit}>
@@ -216,7 +223,6 @@ const Admin = () => {
                   }
                 />
               </div>
-
               <div className="col-3">
                 {role === "Stakeholder" && (
                   <InputRow

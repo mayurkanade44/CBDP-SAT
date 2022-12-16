@@ -91,10 +91,10 @@ const Landing = () => {
                   className={item.id === activeItem ? "active" : "item-wrapper"}
                   onMouseOver={() => handleHover(item.id)}
                   onMouseLeave={() => handleHoverLeave(item.id)}
+                  key={item.id}
                 >
                   <div
                     className={item.id === activeItem ? "item-active" : "item"}
-                    isActive={item.id === activeItem}
                   >
                     <div
                       className={

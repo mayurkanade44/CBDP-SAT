@@ -101,6 +101,7 @@ const userSlice = createSlice({
       })
       .addCase(getAllUsers.rejected, (state, { payload }) => {
         state.userLoading = false;
+        toast.error(payload);
       })
       .addCase(userRegister.pending, (state) => {
         state.userLoading = true;

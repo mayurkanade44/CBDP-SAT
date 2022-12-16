@@ -26,20 +26,17 @@ const Navbar = () => {
             <li className="nav-item">
               <img src={horse} alt="horse" width={55} />
             </li>
-            <li className="nav-item">
-              <Link
-                to="/"
-                className="text-center horse"
-                aria-current="page"
-                onClick={() => {
-                  setExpand(false);
-                }}
-              >
-                <h2>CBDP</h2>
-                <p style={{ marginBottom: 0, fontWeight: 400, fontSize: 12 }}>
-                  Cloud Based Document Portal
-                </p>
-              </Link>
+            <li
+              className="nav-item text-center horse"
+              aria-current="page"
+              onClick={() => {
+                setExpand(false);
+              }}
+            >
+              <h2>CBDP</h2>
+              <p style={{ marginBottom: 0, fontWeight: 400, fontSize: 12 }}>
+                Cloud Based Document Portal
+              </p>
             </li>
 
             <button

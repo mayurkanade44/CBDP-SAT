@@ -33,11 +33,10 @@ header {
   width: 200px !important;
 }
 
-.horse {
+/* .horse {
   color: #686968;
   text-decoration: none;
-  padding-top: 50px !important;
-}
+} */
 
 header .logo {
   height: 70px;
