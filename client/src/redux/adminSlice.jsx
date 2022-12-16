@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { authFetch } from "../utilis/auth";
 
 const initialState = {
   loading: false,
@@ -21,7 +21,7 @@ export const addCatalogue = createAsyncThunk(
   "catalogue/add",
   async (catalogue, thunkAPI) => {
     try {
-      const res = await axios.post("/admin/service", catalogue);
+      const res = await authFetch.post("/admin/service", catalogue);
       thunkAPI.dispatch(clearAdminValues());
       return res.data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const getAllCatalogue = createAsyncThunk(
   "catalogue/services",
   async (_, thunkAPI) => {
     try {
-      const res = await axios.get("/admin/service");
+      const res = await authFetch.get("/admin/service");
       return res.data;
     } catch (error) {
       console.log(error);

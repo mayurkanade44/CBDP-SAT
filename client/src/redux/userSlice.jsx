@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { authFetch } from "../utilis/auth";
 
 const initialState = {
   userLoading: false,
@@ -16,7 +16,7 @@ export const userLogin = createAsyncThunk(
   "user/login",
   async (login, thunkAPI) => {
     try {
-      const res = await axios.post("/user/login", login);
+      const res = await authFetch.post("/user/login", login);
       thunkAPI.dispatch(clearValues());
       return res.data;
     } catch (error) {
@@ -30,7 +30,7 @@ export const userRegister = createAsyncThunk(
   "user/register",
   async (register, thunkAPI) => {
     try {
-      const res = await axios.post("/user/register", register);
+      const res = await authFetch.post("/user/register", register);
       thunkAPI.dispatch(clearValues());
       return res.data;
     } catch (error) {
@@ -42,7 +42,7 @@ export const userRegister = createAsyncThunk(
 
 export const getAllUsers = createAsyncThunk("user/all", async (_, thunkAPI) => {
   try {
-    const res = await axios.get("/user/all");
+    const res = await authFetch.get("/user/all");
     return res.data;
   } catch (error) {
     console.log(error);
@@ -54,7 +54,7 @@ export const userDelete = createAsyncThunk(
   "user/delete",
   async (id, thunkAPI) => {
     try {
-      const res = await axios.delete(`/user/delete/${id}`);
+      const res = await authFetch.delete(`/user/delete/${id}`);
       return res.data;
     } catch (error) {
       console.log(error);

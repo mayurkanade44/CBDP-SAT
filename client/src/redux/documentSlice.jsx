@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { authFetch } from "../utilis/auth";
 
 const initialState = {
   docLoading: false,
@@ -12,11 +12,13 @@ const initialState = {
   newDocs: [],
 };
 
+
+
 export const addDoc = createAsyncThunk(
   "document/addDoc",
   async (myForm, thunkAPI) => {
     try {
-      const res = await axios.post("/documents/allDocs", myForm);
+      const res = await authFetch.post("/documents/allDocs", myForm);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -29,7 +31,7 @@ export const editDoc = createAsyncThunk(
   "document/editDoc",
   async ({ editDocId, myForm }, thunkAPI) => {
     try {
-      const res = await axios.patch(`/documents/editDoc/${editDocId}`, myForm);
+      const res = await authFetch.patch(`/documents/editDoc/${editDocId}`, myForm);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -42,7 +44,7 @@ export const deleteDoc = createAsyncThunk(
   "document/deleteDoc",
   async (id, thunkAPI) => {
     try {
-      const res = await axios.delete(`/documents/editDoc/${id}`);
+      const res = await authFetch.delete(`/documents/editDoc/${id}`);
       thunkAPI.dispatch(getAllDocs(thunkAPI.getState().search));
       return res.data;
     } catch (error) {
@@ -58,7 +60,7 @@ export const getAllDocs = createAsyncThunk(
     try {
       let url = "/documents/allDocs";
       if (search) url = url + `?search=${search}`;
-      const res = await axios.get(url);
+      const res = await authFetch.get(url);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -71,7 +73,7 @@ export const getServiceDocs = createAsyncThunk(
   "document/serviceDocs",
   async (name, thunkAPI) => {
     try {
-      const res = await axios.get(`/documents/service/${name}`);
+      const res = await authFetch.get(`/documents/service/${name}`);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -84,7 +86,7 @@ export const sendMail = createAsyncThunk(
   "document/sendMail",
   async (mail, thunkAPI) => {
     try {
-      const res = await axios.post("/documents/sendMail", mail);
+      const res = await authFetch.post("/documents/sendMail", mail);
       thunkAPI.dispatch(clearValues());
       return res.data;
     } catch (error) {
@@ -98,7 +100,7 @@ export const latestDocs = createAsyncThunk(
   "document/latest",
   async (_, thunkAPI) => {
     try {
-      const res = await axios.get("/documents/latestDocs");
+      const res = await authFetch.get("/user/latestDocs");
       return res.data;
     } catch (error) {
       console.log(error);
