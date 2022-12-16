@@ -65,3 +65,19 @@ export const allUsers = async (req, res) => {
     return res.status(500).json({ msg: "Server error, try again later" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    const name = user.name;
+    await user.remove();
+
+    res.status(200).json({ msg: `${name} has been removed` });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later" });
+  }
+};
