@@ -17,6 +17,8 @@ cloudinary.config({
 import documentRouter from "./routes/DocumentRoute.js";
 import adminRouter from "./routes/AdminRoute.js";
 import authRouter from "./routes/UserRoute.js";
+import { notFoundError } from "./middleware/notFound.js";
+import { authenticateUser } from "./middleware/auth.js";
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
@@ -25,9 +27,13 @@ if (process.env.NODE_ENV !== "production") {
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true }));
 
-app.use("/api/admin", adminRouter);
-app.use("/api/documents", documentRouter);
+
+
+app.use("/api/admin", authenticateUser, adminRouter);
+app.use("/api/documents", authenticateUser, documentRouter);
 app.use("/api/user", authRouter);
+
+app.use(notFoundError);
 
 const port = process.env.PORT || 5000;
 const start = async () => {
