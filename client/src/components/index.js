@@ -4,8 +4,8 @@ import InputRow from "./InputRow";
 import InputSelect from "./InputSelect";
 import Multiselect from "./Multiselect";
 import Navbar from "./Navbar";
+import ProtectedRoute from "./ProtectedRoute";
 import ServiceDocuments from "./ServiceDocuments";
-
 
 export {
   Navbar,
@@ -15,4 +15,5 @@ export {
   InputSelect,
   Multiselect,
   Attach,
+  ProtectedRoute,
 };

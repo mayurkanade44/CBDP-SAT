@@ -1,14 +1,16 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import new1 from "../images/new.png";
 import bag from "../images/bag.png";
 import { latestDocs } from "../redux/documentSlice";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const { docLoading, newDocs } = useSelector((store) => store.doc);
+  const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [activeItem, setActiveItem] = useState(1);
+  const navigate = useNavigate();
 
   const data = [
     {
@@ -64,7 +66,14 @@ const Landing = () => {
 
   useEffect(() => {
     dispatch(latestDocs());
-  }, []);
+    if (user) {
+      setTimeout(() => {
+        navigate("/documents");
+      }, 2000);
+    }
+
+    // eslint-disable-next-line
+  }, [user]);
 
   return (
     <div className="container">

@@ -5,7 +5,7 @@ import bag from "../images/bag.png";
 import colorBag from "../images/colorbag.png";
 import horse from "../images/horse.jpeg";
 import { useSelector, useDispatch } from "react-redux";
-import { handleUserChange, userLogin } from "../redux/userSlice";
+import { handleUserChange, userLogin, logout } from "../redux/userSlice";
 
 const Navbar = () => {
   const [expand, setExpand] = useState(false);
@@ -141,7 +141,7 @@ const Navbar = () => {
                     </li>
                     <hr />
                     <li>
-                      <button className="dropdown-item">Logout</button>
+                      <button className="dropdown-item" onClick={()=> dispatch(logout())}>Logout</button>
                     </li>
                   </ul>
                 </li>
