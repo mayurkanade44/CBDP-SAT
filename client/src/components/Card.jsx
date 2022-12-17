@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FileViewer from "react-file-viewer";
 import { attachFile, deleteDoc } from "../redux/documentSlice";
 import { Link } from "react-router-dom";
@@ -17,6 +17,8 @@ const Card = ({
   const [view, setView] = useState(false);
   const [type, setType] = useState("");
   const dispatch = useDispatch();
+
+  const { user } = useSelector((store) => store.user);
 
   const handleView = (file) => {
     const fileType = file.split(".").pop();
@@ -67,30 +69,34 @@ const Card = ({
         >
           Attach
         </button>
-        <Link
-          to="/admin"
-          className="btn btn-warning m-1"
-          onClick={() =>
-            dispatch(
-              setEditDoc({
-                fileName: name,
-                fileType: typeOfFile,
-                serviceName: typeOfService,
-                catalogueType: typeOfCatalogue,
-                file,
-                editDocId: _id,
-              })
-            )
-          }
-        >
-          Edit
-        </Link>
-        <button
-          className="btn btn-danger m-1"
-          onClick={() => dispatch(deleteDoc(_id))}
-        >
-          Delete
-        </button>
+        {user.role === "Admin" && (
+          <>
+            <Link
+              to="/admin"
+              className="btn btn-warning m-1"
+              onClick={() =>
+                dispatch(
+                  setEditDoc({
+                    fileName: name,
+                    fileType: typeOfFile,
+                    serviceName: typeOfService,
+                    catalogueType: typeOfCatalogue,
+                    file,
+                    editDocId: _id,
+                  })
+                )
+              }
+            >
+              Edit
+            </Link>
+            <button
+              className="btn btn-danger m-1"
+              onClick={() => dispatch(deleteDoc(_id))}
+            >
+              Delete
+            </button>
+          </>
+        )}
       </div>
     </motion.div>
   );

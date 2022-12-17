@@ -1,7 +1,6 @@
 import Admin from "../models/Admin.js";
 
 export const addService = async (req, res) => {
-  const { serviceName, fileType, catalogueType } = req.body;
   try {
     const serv = await Admin.create(req.body);
 
@@ -20,10 +19,6 @@ export const addService = async (req, res) => {
 export const getService = async (req, res) => {
   try {
     let services = await Admin.find();
-
-    // if (req.user.role !== "Stakeholder") {
-    //   services = services.filter((item) => item.serviceName !== "S-Mark");
-    // }
     res.status(200).json({ services });
   } catch (error) {
     console.log(error);

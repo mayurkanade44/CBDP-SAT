@@ -128,20 +128,29 @@ const Navbar = () => {
                     aria-expanded="false"
                     style={{ marginLeft: 0, marginTop: 2 }}
                   >
-                    <h5 className="d-inline">Mayur</h5>
+                    <h5 className="d-inline">{user.name}</h5>
                   </button>
                   <ul
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
+                    {user.role === "Admin" && (
+                      <>
+                        <li>
+                          <Link to="/admin" className="dropdown-item">
+                            Admin
+                          </Link>
+                        </li>
+                        <hr />
+                      </>
+                    )}
                     <li>
-                      <Link to="/admin" className="dropdown-item">
-                        Admin
-                      </Link>
-                    </li>
-                    <hr />
-                    <li>
-                      <button className="dropdown-item" onClick={()=> dispatch(logout())}>Logout</button>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => dispatch(logout())}
+                      >
+                        Logout
+                      </button>
                     </li>
                   </ul>
                 </li>
