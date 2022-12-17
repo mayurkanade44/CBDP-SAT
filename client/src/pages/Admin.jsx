@@ -120,7 +120,7 @@ const Admin = () => {
 
   const showForm = (id) => {
     dispatch(setShow(id));
-    setRegister(false)
+    setRegister(false);
   };
 
   return (
