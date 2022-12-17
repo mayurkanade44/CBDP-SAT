@@ -98,7 +98,17 @@ export const getAllDocuments = async (req, res) => {
     queryObject.name = { $regex: search, $options: "i" };
   }
   try {
-    const documents = await Document.find(queryObject);
+    let documents = await Document.find(queryObject);
+
+    if (req.user.role !== "Stakeholder") {
+      documents = documents.filter(
+        (item) =>
+          item.typeOfCatalogue !== "STQ" &&
+          item.typeOfService !== "S-Mark" &&
+          item.typeOfFile !== "PO"
+      );
+    }
+
     return res.status(200).json({ documents });
   } catch (error) {
     console.log(error);
@@ -108,7 +118,10 @@ export const getAllDocuments = async (req, res) => {
 
 export const getLatestDocs = async (req, res) => {
   try {
-    const docs = await Document.find()
+    const docs = await Document.find({
+      typeOfCatalogue: { $ne: "STQ" },
+      typeOfService: { $nin: "S-Mark" },
+    })
       .select("name")
       .sort("-createdAt");
     const latestDocs = docs.slice(0, 3);
@@ -122,7 +135,14 @@ export const getLatestDocs = async (req, res) => {
 export const getServiceDocuments = async (req, res) => {
   const { name } = req.params;
   try {
-    const serviceDoc = await Document.find({ typeOfService: { $in: name } });
+    let serviceDoc = await Document.find({ typeOfService: { $in: name } });
+
+    if (req.user.role !== "Stakeholder") {
+      serviceDoc = serviceDoc.filter(
+        (item) => item.typeOfService !== "S-Mark" && item.typeOfFile !== "PO"
+      );
+    }
+
     return res.status(200).json({ serviceDoc });
   } catch (error) {
     console.log(error);

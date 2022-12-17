@@ -19,7 +19,11 @@ export const addService = async (req, res) => {
 
 export const getService = async (req, res) => {
   try {
-    const services = await Admin.find({});
+    let services = await Admin.find();
+
+    // if (req.user.role !== "Stakeholder") {
+    //   services = services.filter((item) => item.serviceName !== "S-Mark");
+    // }
     res.status(200).json({ services });
   } catch (error) {
     console.log(error);
