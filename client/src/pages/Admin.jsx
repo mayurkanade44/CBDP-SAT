@@ -28,6 +28,7 @@ const Admin = () => {
     editDocId,
     isEditing,
     file,
+    description,
   } = useSelector((store) => store.admin);
 
   const { allUsers, name, password, role, email } = useSelector(
@@ -153,7 +154,7 @@ const Admin = () => {
           </table>
         </div>
         <div className="col-10">
-          {show === "All Users" && (
+          {show === "All Users" && !register && (
             <>
               <button
                 onClick={() => setRegister(!register)}
@@ -364,6 +365,23 @@ const Admin = () => {
                     }
                   />
                 </div>
+                {catalogueType === "STQ" && (
+                  <div className="col-4">
+                    <InputRow
+                      label="Description"
+                      name="description"
+                      value={description}
+                      handleChange={(e) =>
+                        dispatch(
+                          handleAdminChange({
+                            name: e.target.name,
+                            value: e.target.value,
+                          })
+                        )
+                      }
+                    />
+                  </div>
+                )}
                 <div className="col-4 mt-3">
                   {fileType === "Videos" ? (
                     <InputRow

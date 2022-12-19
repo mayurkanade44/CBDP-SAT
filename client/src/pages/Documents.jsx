@@ -6,19 +6,24 @@ import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
 
 const Documents = () => {
   const { search } = useSelector((store) => store.doc);
-  const { activeCatalogue } = useSelector((store) => store.admin);
+  const { activeCatalogue, allCatalogue } = useSelector((store) => store.admin);
   const dispatch = useDispatch();
   const [all, setAll] = useState(false);
 
-  const files = [];
+  const files = allCatalogue?.filter(
+    (item) => item.catalogueType === activeCatalogue && item.fileType
+  );
 
-  if (activeCatalogue === "Services" || activeCatalogue === "Products") {
-    files.length = 0;
-    files.push("MSDS", "SOP", "Videos", "Technical Resources");
-  } else {
-    files.length = 0;
-    files.push("Corporate Details", "PO", "Completion Letter", "Feedback");
-  }
+  // if (activeCatalogue === "Services" || activeCatalogue === "Products") {
+  //   files.length = 0;
+  //   files.push("MSDS", "SOP", "Videos", "Technical Resources");
+  // } else if (activeCatalogue === "STQ") {
+  //   files.length = 0;
+  //   files.push("EPPL", "Smark", "Other");
+  // } else {
+  //   files.length = 0;
+  //   files.push("Corporate Details", "PO", "Completion Letter", "Feedback");
+  // }
 
   useEffect(() => {
     dispatch(getAllDocs(search));
@@ -56,10 +61,10 @@ const Documents = () => {
             {files.map((item) => (
               <button
                 className="btn btn-default filter-button"
-                onClick={() => dispatch(filterDoc({ name: item }))}
-                key={item}
+                onClick={() => dispatch(filterDoc({ name: item.fileType }))}
+                key={item._id}
               >
-                {item}
+                {item.fileType}
               </button>
             ))}
           </div>

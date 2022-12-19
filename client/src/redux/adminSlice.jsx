@@ -11,6 +11,7 @@ const initialState = {
   serviceName: "",
   fileType: "",
   fileName: "",
+  description: "",
   isEditing: false,
   editDocId: "",
   show: "All Users",
