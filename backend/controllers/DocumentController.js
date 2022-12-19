@@ -93,20 +93,20 @@ export const deleteDocument = async (req, res) => {
 
 export const getAllDocuments = async (req, res) => {
   const { search } = req.query;
-  const queryObject = {};
-  if (search) {
-    queryObject.name = { $regex: search, $options: "i" };
-  }
+  let queryObject = {};
+  if (search)
+    queryObject = {
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ],
+    };
+
   try {
     let documents = await Document.find(queryObject);
 
     if (req.user.role !== "Stakeholder") {
-      documents = documents.filter(
-        (item) =>
-          item.typeOfCatalogue !== "STQ" &&
-          item.typeOfService !== "S-Mark" &&
-          item.typeOfFile !== "PO"
-      );
+      documents = documents.filter((item) => item.typeOfCatalogue !== "STQ");
     }
 
     return res.status(200).json({ documents });
@@ -118,10 +118,7 @@ export const getAllDocuments = async (req, res) => {
 
 export const getLatestDocs = async (req, res) => {
   try {
-    const docs = await Document.find({
-      typeOfCatalogue: { $ne: "STQ" },
-      typeOfService: { $nin: "S-Mark" },
-    })
+    const docs = await Document.find({ typeOfCatalogue: { $ne: "STQ" } })
       .select("name")
       .sort("-createdAt");
     const latestDocs = docs.slice(0, 3);
@@ -136,12 +133,6 @@ export const getServiceDocuments = async (req, res) => {
   const { name } = req.params;
   try {
     let serviceDoc = await Document.find({ typeOfService: { $in: name } });
-
-    if (req.user.role !== "Stakeholder") {
-      serviceDoc = serviceDoc.filter(
-        (item) => item.typeOfService !== "S-Mark" && item.typeOfFile !== "PO"
-      );
-    }
 
     return res.status(200).json({ serviceDoc });
   } catch (error) {
