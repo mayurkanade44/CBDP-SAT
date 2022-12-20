@@ -109,13 +109,13 @@ const Navbar = () => {
                     style={{ paddingTop: 0 }}
                   >
                     <img
-                      src={Object.keys(filesCart).length > 0 ? colorBag : bag}
+                      src={filesCart.length > 0 ? colorBag : bag}
                       alt="cart"
                       style={{ width: 32 }}
                     />
-                    {Object.keys(filesCart).length > 0 && (
+                    {filesCart.length > 0 && (
                       <span className="position-absolute top-25 start-75 translate-middle badge cart-badge rounded-pill bg-dark">
-                        {Object.keys(filesCart).length}
+                        {filesCart.length}
                       </span>
                     )}
                   </button>

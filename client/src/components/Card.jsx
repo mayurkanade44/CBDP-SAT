@@ -65,7 +65,7 @@ const Card = ({
         </button>
         <button
           className="btn btn-dark m-1"
-          onClick={() => dispatch(attachFile({ file, name }))}
+          onClick={() => dispatch(attachFile({ file, name, typeOfFile }))}
         >
           Attach
         </button>

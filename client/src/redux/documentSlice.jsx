@@ -8,11 +8,9 @@ const initialState = {
   serviceDocs: [],
   search: "",
   emailTo: "",
-  filesCart: {},
+  filesCart: [],
   newDocs: [],
 };
-
-
 
 export const addDoc = createAsyncThunk(
   "document/addDoc",
@@ -31,7 +29,10 @@ export const editDoc = createAsyncThunk(
   "document/editDoc",
   async ({ editDocId, myForm }, thunkAPI) => {
     try {
-      const res = await authFetch.patch(`/documents/editDoc/${editDocId}`, myForm);
+      const res = await authFetch.patch(
+        `/documents/editDoc/${editDocId}`,
+        myForm
+      );
       return res.data;
     } catch (error) {
       console.log(error);
@@ -122,16 +123,15 @@ const documentSlice = createSlice({
     handleChange: (state, { payload: { name, value } }) => {
       state[name] = value;
     },
-    attachFile: (state, { payload: { file, name } }) => {
-      state.filesCart[name] = file;
+    attachFile: (state, { payload: { file, name, typeOfFile } }) => {
+      state.filesCart.push({ name, file, typeOfFile });
     },
     removeFile: (state, { payload: { name } }) => {
-      delete state.filesCart[name];
+      state.filesCart = state.filesCart.filter((item) => item.name !== name);
     },
-    clearValues: () => {
-      return {
-        ...initialState,
-      };
+    clearValues: (state) => {
+      state.emailTo = "";
+      state.filesCart = [];
     },
   },
   extraReducers: (builder) => {
