@@ -7,6 +7,7 @@ import {
   getAllCatalogue,
   handleAdminChange,
   setShow,
+  getMailData,
 } from "../redux/adminSlice";
 import { addDoc, editDoc } from "../redux/documentSlice";
 import {
@@ -29,6 +30,8 @@ const Admin = () => {
     isEditing,
     file,
     description,
+    sendMailData,
+    mailSearch,
   } = useSelector((store) => store.admin);
 
   const { allUsers, name, password, role, email } = useSelector(
@@ -78,6 +81,7 @@ const Admin = () => {
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCatalogue());
+    dispatch(getMailData());
 
     // eslint-disable-next-line
   }, []);
@@ -124,8 +128,6 @@ const Admin = () => {
     dispatch(setShow(id));
     setRegister(false);
   };
-
-  console.log(catalogues);
 
   return (
     <div className="container-fluid ps-4">
@@ -278,28 +280,52 @@ const Admin = () => {
             </form>
           )}
           {show === "Send Mail Data" && (
-            <table className="table table-bordered table-secondary">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Email To</th>
-                  <th>Files</th>
-                  <th>From</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allCatalogue?.map((item) =>
-                  item.sendData?.map((data, index) => (
+            <>
+              <div className="row mb-3">
+                <div className="col-auto">
+                  <InputRow
+                    name="mailSearch"
+                    value={mailSearch}
+                    handleChange={(e) =>
+                      dispatch(
+                        handleAdminChange({
+                          name: e.target.name,
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
+                </div>
+                <div className="col-auto">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => dispatch(getMailData(mailSearch))}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+              <table className="table table-bordered table-secondary">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Email To</th>
+                    <th>Files</th>
+                    <th>From</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sendMailData?.map((data, index) => (
                     <tr key={index}>
-                      <td style={{width:150}}>{data.date.split("T")[0]}</td>
+                      <td style={{ width: 150 }}>{data.date.split("T")[0]}</td>
                       <td>{data.to}</td>
                       <td>{data.files}</td>
                       <td>{data.from}</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ))}
+                </tbody>
+              </table>
+            </>
           )}
           <form className="row" onSubmit={handleSubmit}>
             {(show === "Add Document" ||

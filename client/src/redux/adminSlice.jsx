@@ -16,6 +16,8 @@ const initialState = {
   editDocId: "",
   show: "All Users",
   file: "",
+  mailSearch: "",
+  sendMailData: [],
 };
 
 export const addCatalogue = createAsyncThunk(
@@ -37,6 +39,21 @@ export const getAllCatalogue = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const res = await authFetch.get("/admin/service");
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const getMailData = createAsyncThunk(
+  "catalogue/mailData",
+  async (mailSearch, thunkAPI) => {
+    try {
+      let url = "/admin/sendMailData";
+      if (mailSearch) url = url + `?mailSearch=${mailSearch}`;
+      const res = await authFetch.post(url);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -93,6 +110,17 @@ const catalogueSlice = createSlice({
         state.allCatalogue = payload.services;
       })
       .addCase(getAllCatalogue.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(getMailData.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getMailData.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.sendMailData = payload.sendMails;
+      })
+      .addCase(getMailData.rejected, (state, { payload }) => {
         state.loading = false;
         toast.error(payload);
       });
