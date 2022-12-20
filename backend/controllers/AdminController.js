@@ -18,8 +18,41 @@ export const addService = async (req, res) => {
 
 export const getService = async (req, res) => {
   try {
-    let services = await Admin.find();
+    const services = await Admin.find({
+      _id: { $ne: "63a05aeb5ea15caab88592c5" },
+    });
     res.status(200).json({ services });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "There was some error" });
+  }
+};
+
+export const getSendMailData = async (req, res) => {
+  const { mailSearch } = req.query;
+  try {
+    let sendMails = await Admin.findById("63a05aeb5ea15caab88592c5");
+    if (mailSearch) {
+      // sendMails = await Admin.findOne({
+      //   sendData: { $elemMatch: { to: mailSearch } },
+      // });
+      const temp = [];
+      for (let mail of sendMails.sendData) {
+        if (
+          mail.to === mailSearch ||
+          mail.files === mailSearch ||
+          mail.from === mailSearch
+        )
+          temp.push(mail);
+      }
+      sendMails = temp;
+    } else {
+      const tempSort = sendMails.sendData
+        .sort((a, b) => b.date - a.date)
+        .slice(0, 10);
+      sendMails = tempSort;
+    }
+    res.status(200).json({ sendMails });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "There was some error" });
