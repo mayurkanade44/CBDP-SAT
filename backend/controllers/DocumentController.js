@@ -4,6 +4,7 @@ import { URL } from "url";
 import fs from "fs";
 import sgMail from "@sendgrid/mail";
 import axios from "axios";
+import Admin from "../models/Admin.js";
 
 export const addDocument = async (req, res) => {
   const { typeOfCatalogue, typeOfService, typeOfFile, name } = req.body;
@@ -142,38 +143,79 @@ export const getServiceDocuments = async (req, res) => {
 };
 
 export const sendMail = async (req, res) => {
-  const { emailTo, filesCart } = req.body;
+  const { emailTo, filesCart, userName } = req.body;
   try {
     if (!emailTo || !filesCart) {
-      return res.status(400).json({ msg: "Please provide email to or files" });
+      return res.status(400).json({ msg: "Please provide email id or files" });
     }
-    const url = Object.values(filesCart);
-    const fileName = Object.keys(filesCart);
-    const attach = [];
-    for (let i = 0; i < url.length; i++) {
-      const fileType = url[i].split(".").pop();
-      const result = await axios.get(url[i], { responseType: "arraybuffer" });
-      const base64File = Buffer.from(result.data, "binary").toString("base64");
-      const attachObj = {
-        content: base64File,
-        filename: `${fileName[i]}.${fileType}`,
-        type: `application/${fileType}`,
-        disposition: "attachment",
-      };
-      attach.push(attachObj);
+
+    // const url = Object.values(filesCart);
+    // const fileName = Object.keys(filesCart);
+    // const attach = [];
+    // for (let i = 0; i < url.length; i++) {
+    //   const fileType = url[i].split(".").pop();
+    //   const result = await axios.get(url[i], { responseType: "arraybuffer" });
+    //   const base64File = Buffer.from(result.data, "binary").toString("base64");
+    //   const attachObj = {
+    //     content: base64File,
+    //     filename: `${fileName[i]}.${fileType}`,
+    //     type: `application/${fileType}`,
+    //     disposition: "attachment",
+    //   };
+    //   attach.push(attachObj);
+    // }
+
+    let attach = [],
+      ytVideo = [],
+      fileName = [];
+    for (let item of filesCart) {
+      fileName.push(item.name);
+      if (item.typeOfFile === "Videos") {
+        ytVideo.push(item.file);
+      } else {
+        const fileType = item.file.split(".").pop();
+        const result = await axios.get(item.file, {
+          responseType: "arraybuffer",
+        });
+        const base64File = Buffer.from(result.data, "binary").toString(
+          "base64"
+        );
+        const attachObj = {
+          content: base64File,
+          filename: `${item.name}.${fileType}`,
+          type: `application/${fileType}`,
+          disposition: "attachment",
+        };
+        attach.push(attachObj);
+      }
     }
+
+    const sendData = {
+      date: new Date(),
+      to: emailTo,
+      files: fileName.join(", "),
+      from: userName,
+    };
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: emailTo,
       from: { email: "noreply.epcorn@gmail.com", name: "do_not_reply_epcorn" },
       dynamic_template_data: {
-        fileName: fileName,
+        fileName: fileName.join(", "),
+        video: ytVideo,
+        name: userName,
       },
       template_id: "d-70c32e835f864676a70866c38b467a97",
       attachments: attach,
     };
+
     await sgMail.send(msg);
+
+    const admin = await Admin.findById("63a05aeb5ea15caab88592c5");
+    admin.sendData.push(sendData);
+    admin.save();
+
     res.status(200).json({ msg: "Email has been sent" });
   } catch (error) {
     console.log(error);
