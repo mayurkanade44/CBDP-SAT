@@ -56,6 +56,7 @@ const Admin = () => {
 
   allCatalogue.map(
     (item) =>
+      item.catalogueType &&
       !catalogues.includes(item.catalogueType) &&
       catalogues.push(item.catalogueType)
   );
@@ -123,6 +124,8 @@ const Admin = () => {
     dispatch(setShow(id));
     setRegister(false);
   };
+
+  console.log(catalogues);
 
   return (
     <div className="container-fluid ps-4">
@@ -274,7 +277,30 @@ const Admin = () => {
               </div>
             </form>
           )}
-
+          {show === "Send Mail Data" && (
+            <table className="table table-bordered table-secondary">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Email To</th>
+                  <th>Files</th>
+                  <th>From</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allCatalogue?.map((item) =>
+                  item.sendData?.map((data, index) => (
+                    <tr key={index}>
+                      <td style={{width:150}}>{data.date.split("T")[0]}</td>
+                      <td>{data.to}</td>
+                      <td>{data.files}</td>
+                      <td>{data.from}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          )}
           <form className="row" onSubmit={handleSubmit}>
             {(show === "Add Document" ||
               show === "Add Service Type" ||
@@ -407,7 +433,7 @@ const Admin = () => {
                 </div>
               </>
             )}
-            {show !== "All Users" && (
+            {show !== "All Users" && show !== "Send Mail Data" && (
               <div className="col-auto">
                 <button className="btn btn-primary mt-1" type="submit">
                   Save
