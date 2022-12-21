@@ -6,7 +6,7 @@ import { latestDocs } from "../redux/documentSlice";
 import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
-  const { docLoading, newDocs } = useSelector((store) => store.doc);
+  const { newDocs } = useSelector((store) => store.doc);
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [activeItem, setActiveItem] = useState(1);
@@ -69,7 +69,7 @@ const Landing = () => {
     if (user) {
       setTimeout(() => {
         navigate("/documents");
-      }, 2000);
+      }, 1000);
     }
 
     // eslint-disable-next-line

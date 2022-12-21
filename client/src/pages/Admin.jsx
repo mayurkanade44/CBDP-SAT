@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { InputRow, InputSelect, Multiselect } from "../components";
+import { InputRow, InputSelect, Loading, Multiselect } from "../components";
 import {
   addCatalogue,
   getAllCatalogue,
@@ -31,12 +31,14 @@ const Admin = () => {
     file,
     description,
     sendMailData,
-    mailSearch,
+    loading,
   } = useSelector((store) => store.admin);
 
   const { allUsers, name, password, role, email } = useSelector(
     (store) => store.user
   );
+
+  const { docLoading } = useSelector((store) => store.doc);
 
   const [register, setRegister] = useState(false);
   const [services, setServices] = useState([]);
@@ -128,6 +130,8 @@ const Admin = () => {
     dispatch(setShow(id));
     setRegister(false);
   };
+
+  if (loading || docLoading) return <Loading />;
 
   return (
     <div className="container-fluid ps-4">
@@ -280,52 +284,26 @@ const Admin = () => {
             </form>
           )}
           {show === "Send Mail Data" && (
-            <>
-              <div className="row mb-3">
-                <div className="col-auto">
-                  <InputRow
-                    name="mailSearch"
-                    value={mailSearch}
-                    handleChange={(e) =>
-                      dispatch(
-                        handleAdminChange({
-                          name: e.target.name,
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </div>
-                <div className="col-auto">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => dispatch(getMailData(mailSearch))}
-                  >
-                    Search
-                  </button>
-                </div>
-              </div>
-              <table className="table table-bordered table-secondary">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Email To</th>
-                    <th>Files</th>
-                    <th>From</th>
+            <table className="table table-bordered table-secondary">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Email To</th>
+                  <th>Files</th>
+                  <th>From</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sendMailData?.map((data, index) => (
+                  <tr key={index}>
+                    <td style={{ width: 150 }}>{data.date.split("T")[0]}</td>
+                    <td>{data.to}</td>
+                    <td>{data.files}</td>
+                    <td>{data.from}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {sendMailData?.map((data, index) => (
-                    <tr key={index}>
-                      <td style={{ width: 150 }}>{data.date.split("T")[0]}</td>
-                      <td>{data.to}</td>
-                      <td>{data.files}</td>
-                      <td>{data.from}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </>
+                ))}
+              </tbody>
+            </table>
           )}
           <form className="row" onSubmit={handleSubmit}>
             {(show === "Add Document" ||

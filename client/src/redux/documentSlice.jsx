@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { authFetch } from "../utilis/auth";
+import { clearAdminValues } from "./adminSlice";
 
 const initialState = {
   docLoading: false,
@@ -17,6 +18,7 @@ export const addDoc = createAsyncThunk(
   async (myForm, thunkAPI) => {
     try {
       const res = await authFetch.post("/documents/allDocs", myForm);
+      thunkAPI.dispatch(clearAdminValues())
       return res.data;
     } catch (error) {
       console.log(error);
@@ -33,6 +35,7 @@ export const editDoc = createAsyncThunk(
         `/documents/editDoc/${editDocId}`,
         myForm
       );
+      thunkAPI.dispatch(clearAdminValues());
       return res.data;
     } catch (error) {
       console.log(error);
@@ -137,36 +140,36 @@ const documentSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addDoc.pending, (state) => {
-        state.loading = true;
+        state.docLoading = true;
       })
       .addCase(addDoc.fulfilled, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
         toast.success(payload.msg);
       })
       .addCase(addDoc.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
         toast.error(payload);
       })
       .addCase(editDoc.pending, (state) => {
-        state.loading = true;
+        state.docLoading = true;
       })
       .addCase(editDoc.fulfilled, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
         toast.success(payload.msg);
       })
       .addCase(editDoc.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
         toast.error(payload);
       })
       .addCase(deleteDoc.pending, (state) => {
-        state.loading = true;
+        state.docLoading = true;
       })
       .addCase(deleteDoc.fulfilled, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
         toast.success(payload.msg);
       })
       .addCase(deleteDoc.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
         toast.error(payload);
       })
       .addCase(getAllDocs.pending, (state) => {
@@ -178,7 +181,7 @@ const documentSlice = createSlice({
         state.serviceDocs = payload.documents;
       })
       .addCase(getAllDocs.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
       })
       .addCase(getServiceDocs.pending, (state) => {
         state.docLoading = true;
@@ -189,7 +192,7 @@ const documentSlice = createSlice({
         state.serviceDocs = payload.serviceDoc;
       })
       .addCase(getServiceDocs.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.docLoading = false;
       })
       .addCase(sendMail.pending, (state) => {
         state.docLoading = true;

@@ -71,7 +71,7 @@ const Navbar = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      to="/"
+                      to="/serviceCards"
                       className="nav-link text-center"
                       aria-current="page"
                       onClick={() => {
@@ -83,7 +83,7 @@ const Navbar = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      to="/"
+                      to="/upskill"
                       className="nav-link text-center"
                       aria-current="page"
                       onClick={() => {
