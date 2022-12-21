@@ -317,7 +317,6 @@ header .nav-link h5:hover {
   max-width: 1300px;
   width: calc(100%-100px);
   height: 600px;
-
 }
 
 .item-wrapper {
@@ -340,7 +339,6 @@ header .nav-link h5:hover {
   padding: 0 20px;
   transition: all 0.6s ease;
   flex-grow: 4;
-  
 }
 
 .item {
@@ -446,4 +444,17 @@ header .nav-link h5:hover {
 .shortName {
   font-size: 34px;
   transform: rotate(-90deg);
+}
+
+.modal {
+  display: block;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }

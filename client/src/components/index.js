@@ -2,10 +2,12 @@ import Accordion from "./Accordion";
 import Attach from "./Attach";
 import InputRow from "./InputRow";
 import InputSelect from "./InputSelect";
+import Loading from "./Loading";
 import Multiselect from "./Multiselect";
 import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 import ServiceDocuments from "./ServiceDocuments";
+
 
 export {
   Navbar,
@@ -16,4 +18,5 @@ export {
   Multiselect,
   Attach,
   ProtectedRoute,
+  Loading,
 };

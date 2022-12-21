@@ -5,7 +5,7 @@ import { InputRow } from ".";
 import { handleChange, removeFile, sendMail } from "../redux/documentSlice";
 
 const Attach = () => {
-  const { filesCart, emailTo } = useSelector((store) => store.doc);
+  const { docLoading, filesCart, emailTo } = useSelector((store) => store.doc);
   const { user } = useSelector((store) => store.user);
   const [collapseButton, setCollapseButton] = useState("");
   const dispatch = useDispatch();
@@ -69,7 +69,7 @@ const Attach = () => {
               aria-controls="collapseExample"
               disabled={!emailTo && true}
             >
-              Send
+              {docLoading ? "Sending...." : "Send"}
             </button>
           </div>
         </form>

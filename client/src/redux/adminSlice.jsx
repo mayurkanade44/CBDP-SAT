@@ -16,7 +16,6 @@ const initialState = {
   editDocId: "",
   show: "All Users",
   file: "",
-  mailSearch: "",
   sendMailData: [],
 };
 
@@ -49,11 +48,9 @@ export const getAllCatalogue = createAsyncThunk(
 
 export const getMailData = createAsyncThunk(
   "catalogue/mailData",
-  async (mailSearch, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      let url = "/admin/sendMailData";
-      if (mailSearch) url = url + `?mailSearch=${mailSearch}`;
-      const res = await authFetch.post(url);
+      const res = await authFetch.get("/admin/sendMailData");
       return res.data;
     } catch (error) {
       console.log(error);
