@@ -27,8 +27,6 @@ if (process.env.NODE_ENV !== "production") {
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true }));
 
-
-
 app.use("/api/admin", authenticateUser, adminRouter);
 app.use("/api/documents", authenticateUser, documentRouter);
 app.use("/api/user", authRouter);

@@ -104,11 +104,13 @@ export const getAllDocuments = async (req, res) => {
     };
 
   try {
-    let documents = await Document.find(queryObject);
+    let documents = await Document.find(queryObject).sort("-createdAt");
 
     if (req.user.role !== "Stakeholder") {
       documents = documents.filter((item) => item.typeOfCatalogue !== "STQ");
     }
+
+    if (!search) documents = documents.slice(0, 18);
 
     return res.status(200).json({ documents });
   } catch (error) {

@@ -12,6 +12,6 @@ router
   .route("/service")
   .post(authorizeUser("Admin"), addService)
   .get(getService);
-router.route("/sendMailData").post( getSendMailData);
+router.route("/sendMailData").get(authorizeUser("Admin"), getSendMailData);
 
 export default router;
