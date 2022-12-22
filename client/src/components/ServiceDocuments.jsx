@@ -17,7 +17,7 @@ const ServiceDocuments = () => {
       )}
       {allDocs?.map((item) => {
         return (
-          <motion.div layout className="col-4" key={item._id}>
+          <motion.div layout className="col-lg-4 col-md-6" key={item._id}>
             <Card {...item} />
           </motion.div>
         );

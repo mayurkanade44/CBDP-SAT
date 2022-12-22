@@ -22,7 +22,7 @@ const Accordion = () => {
   };
 
   return (
-    <div className="accordion" id="accordionExample">
+    <div className="accordion d-mobile" id="accordionExample">
       <div className="accordion-item">
         <button
           className="accordion-button"

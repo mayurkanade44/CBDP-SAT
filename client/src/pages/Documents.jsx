@@ -88,10 +88,10 @@ const Documents = () => {
             </button>
           </div>
         </div>
-        <div className="col-3">
+        <div className="col-md-3">
           <Accordion />
         </div>
-        <div className="col-9">
+        <div className="col-md-9">
           <div className="collapse mb-3" id="collapseExample">
             <div className="card card-body">
               <Attach />
