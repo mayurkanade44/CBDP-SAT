@@ -4,9 +4,7 @@ import { getAllCatalogue, activeBtn } from "../redux/adminSlice";
 import { getServiceDocs } from "../redux/documentSlice";
 
 const Accordion = () => {
-  const { loading, allCatalogue, activeService } = useSelector(
-    (store) => store.admin
-  );
+  const { allCatalogue, activeService } = useSelector((store) => store.admin);
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
 

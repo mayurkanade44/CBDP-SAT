@@ -54,10 +54,12 @@ const Admin = () => {
     setValue(val);
   };
 
-  const objs = services.map((x) => ({
-    label: x.serviceName,
-    value: x.serviceName,
-  }));
+  const objs = services
+    .map((x) => ({
+      label: x.serviceName,
+      value: x.serviceName,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   allCatalogue.map(
     (item) =>
@@ -357,6 +359,7 @@ const Admin = () => {
                       <h4 className="d-inline">{catalogueType || "Name"}</h4>
                     </div>
                     <div className="col-lg-5">
+                      {serviceName}
                       <Multiselect
                         handleChange={handleOnchange}
                         option={objs}
