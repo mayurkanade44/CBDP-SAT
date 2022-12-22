@@ -202,6 +202,7 @@ export const sendMail = async (req, res) => {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: emailTo,
+      cc: "epcorn@yahoo.in",
       from: { email: "noreply.epcorn@gmail.com", name: "do_not_reply_epcorn" },
       dynamic_template_data: {
         fileName: fileName.join(", "),

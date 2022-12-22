@@ -10,6 +10,11 @@ const ServiceDocuments = () => {
 
   return (
     <div className="row gy-3">
+      {allDocs?.length === 0 && (
+        <h3 className="text-center">
+          <b>No document found.</b>
+        </h3>
+      )}
       {allDocs?.map((item) => {
         return (
           <motion.div layout className="col-4" key={item._id}>
