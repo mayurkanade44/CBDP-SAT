@@ -122,7 +122,7 @@ const Admin = () => {
     e.preventDefault();
     if (role !== "Stakeholder")
       return dispatch(userRegister({ name, email, password, role }));
-    if (code === "stq@1978") {
+    if (code === process.env.REACT_APP_CODE) {
       return dispatch(userRegister({ name, email, password, role }));
     }
     toast.error("Please enter valid code");

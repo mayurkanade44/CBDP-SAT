@@ -28,20 +28,27 @@ const Card = ({
 
   return (
     <motion.div layout className="card">
-      <h3 className="text-center mt-2">{typeOfFile}</h3>
+      <h4 className="text-center mt-2">{typeOfFile}</h4>
       <div className="card-body">
-        <h5 className="card-title" style={{ color: "red" }}>
+        <h6 className="card-title" style={{ color: "red" }}>
           {name}
-        </h5>
+        </h6>
         <p className="card-text">
           <b>Services - </b> {typeOfService.join(", ")}
         </p>
-        <button
-          className="btn btn-primary m-1"
-          onClick={() => handleView(file)}
-        >
-          Preview
-        </button>
+
+        {typeOfFile === "Videos" ? (
+          <a href={file} target="_blank" rel="noreferrer">
+            <button className="btn btn-primary m-1">Preview</button>
+          </a>
+        ) : (
+          <button
+            className="btn btn-primary m-1"
+            onClick={() => handleView(file)}
+          >
+            Preview
+          </button>
+        )}
         {view && (
           <div className="modal">
             <div className="modal-content">
@@ -59,6 +66,7 @@ const Card = ({
               color: "white",
             }}
             href={file}
+            rel="noreferrer"
           >
             Download
           </a>
