@@ -16,6 +16,23 @@ export const addService = async (req, res) => {
   }
 };
 
+export const editService = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const service = await Admin.findOne({ _id: id });
+    if (!service) return res.status(404).json({ msg: "No service found" });
+
+    await Admin.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(200).json({ msg: "Service has been updated" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "There was some error" });
+  }
+};
+
 export const getService = async (req, res) => {
   try {
     const services = await Admin.find({
