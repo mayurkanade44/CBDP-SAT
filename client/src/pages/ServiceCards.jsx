@@ -41,7 +41,9 @@ const ServiceCards = () => {
   return (
     <div className="container">
       {otherLoading && <Loading />}
-      <h2 className="text-center text-info mt-3 mb-5">Service Card Downloader</h2>
+      <h2 className="text-center text-info mt-3 mb-5">
+        Service Card Downloader
+      </h2>
       <div className="row d-flex justify-content-center">
         <div className="col-5">
           <SearchContainer
@@ -61,31 +63,6 @@ const ServiceCards = () => {
             data={serviceCards}
             download={download}
           />
-          {/* <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>Contract Number</th>
-                <th>Service Name</th>
-                <th>Download</th>
-              </tr>
-            </thead>
-            <tbody>
-              {serviceCards?.map((item) => (
-                <tr key={item._id}>
-                  <td>{item.contract}</td>
-                  <td>{item.serviceName}</td>
-                  <td>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => download(item.image[0], item.contract)}
-                    >
-                      Download
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
         </div>
       </div>
     </div>

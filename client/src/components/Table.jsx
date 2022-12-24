@@ -3,7 +3,7 @@ const Table = ({ user, th1, th2, th3, data, download, deleteUser }) => {
     <table className="table table-striped-columns table-bordered mt-2">
       <thead>
         <tr>
-          <th style={{width:240}}>{th1}</th>
+          <th style={{ width: 240 }}>{th1}</th>
           <th>{th2}</th>
           <th>{th3}</th>
         </tr>
@@ -33,7 +33,9 @@ const Table = ({ user, th1, th2, th3, data, download, deleteUser }) => {
                 <td>
                   <button
                     className="btn btn-success"
-                    onClick={() => download(item.image[0], item.contract)}
+                    onClick={() =>
+                      download(item.image || item.image[0], item.contract)
+                    }
                   >
                     Download
                   </button>

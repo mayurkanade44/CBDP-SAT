@@ -191,33 +191,6 @@ const Admin = () => {
                 data={allUsers}
                 deleteUser={deleteUser}
               />
-              {/* <table className="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allUsers?.map((user) => (
-                    <tr key={user._id}>
-                      <td>{user.name}</td>
-                      <td>{user.role}</td>
-                      <td>
-                        {user.role !== "Admin" && (
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => dispatch(userDelete(user._id))}
-                          >
-                            Remove User
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table> */}
             </>
           )}
           {register && (
@@ -257,7 +230,7 @@ const Admin = () => {
                 {role === "Stakeholder" && (
                   <InputRow
                     label="Code"
-                    type="text"
+                    type="password"
                     name="code"
                     value={code}
                     handleChange={(e) => setCode(e.target.value)}
