@@ -18,7 +18,7 @@ export const addDoc = createAsyncThunk(
   async (myForm, thunkAPI) => {
     try {
       const res = await authFetch.post("/documents/allDocs", myForm);
-      thunkAPI.dispatch(clearAdminValues())
+      thunkAPI.dispatch(clearAdminValues());
       return res.data;
     } catch (error) {
       console.log(error);
