@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { InputRow, InputSelect, Loading, Multiselect } from "../components";
+import {
+  InputRow,
+  InputSelect,
+  Loading,
+  Multiselect,
+  Table,
+} from "../components";
 import {
   addCatalogue,
   getAllCatalogue,
@@ -133,6 +139,10 @@ const Admin = () => {
     setRegister(false);
   };
 
+  const deleteUser = (id) => {
+    dispatch(userDelete(id));
+  };
+
   if (loading || docLoading) return <Loading />;
 
   return (
@@ -173,7 +183,15 @@ const Admin = () => {
               >
                 {register ? "Back" : "Register User"}
               </button>
-              <table className="table">
+              <Table
+                user={true}
+                th1="Name"
+                th2="Role"
+                th3="Delete"
+                data={allUsers}
+                deleteUser={deleteUser}
+              />
+              {/* <table className="table">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -199,7 +217,7 @@ const Admin = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table> */}
             </>
           )}
           {register && (

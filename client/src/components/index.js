@@ -8,6 +8,8 @@ import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 import SearchContainer from "./SearchContainer";
 import ServiceDocuments from "./ServiceDocuments";
+import Table from "./Table";
+
 
 export {
   Navbar,
@@ -20,4 +22,5 @@ export {
   ProtectedRoute,
   Loading,
   SearchContainer,
+  Table,
 };

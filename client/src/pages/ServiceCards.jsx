@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Loading, SearchContainer } from "../components";
+import { Loading, SearchContainer, Table } from "../components";
 import { getServiceCards, handleOtherChange } from "../redux/otherSlice";
 
 const ServiceCards = () => {
@@ -41,7 +41,7 @@ const ServiceCards = () => {
   return (
     <div className="container">
       {otherLoading && <Loading />}
-      <h2 className="text-center my-3">Service Card Downloader</h2>
+      <h2 className="text-center text-info mt-3 mb-5">Service Card Downloader</h2>
       <div className="row d-flex justify-content-center">
         <div className="col-5">
           <SearchContainer
@@ -53,7 +53,15 @@ const ServiceCards = () => {
           />
         </div>
         <div className="col-10">
-          <table className="table table-bordered">
+          <Table
+            user={false}
+            th1="Contract Number"
+            th2="Service Name"
+            th3="Download"
+            data={serviceCards}
+            download={download}
+          />
+          {/* <table className="table table-bordered">
             <thead>
               <tr>
                 <th>Contract Number</th>
@@ -77,7 +85,7 @@ const ServiceCards = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
         </div>
       </div>
     </div>
