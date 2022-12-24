@@ -1,9 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
+import { Loading, SearchContainer } from "../components";
 import { getServiceCards, handleOtherChange } from "../redux/otherSlice";
 
 const ServiceCards = () => {
   const dispatch = useDispatch();
-  const { contract, serviceCards } = useSelector((store) => store.other);
+  const { otherLoading, contract, serviceCards } = useSelector(
+    (store) => store.other
+  );
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -37,51 +40,46 @@ const ServiceCards = () => {
 
   return (
     <div className="container">
+      {otherLoading && <Loading />}
       <h2 className="text-center my-3">Service Card Downloader</h2>
-      <form onSubmit={handleSearch } >
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Contract Number"
+      <div className="row d-flex justify-content-center">
+        <div className="col-5">
+          <SearchContainer
             name="contract"
             value={contract}
-            onChange={handleInput}
+            placeholder="Contract Number"
+            handleSearch={handleSearch}
+            handleChange={handleInput}
           />
-          <button
-            className="input-group-text btn btn-primary"
-            id="basic-addon2"
-            type="submit"
-          >
-            Search
-          </button>
         </div>
-      </form>
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Contract Number</th>
-            <th>Service Name</th>
-            <th>Download</th>
-          </tr>
-        </thead>
-        <tbody>
-          {serviceCards?.map((item) => (
-            <tr key={item._id}>
-              <td>{item.contract}</td>
-              <td>{item.serviceName}</td>
-              <td>
-                <button
-                  className="btn btn-success"
-                  onClick={() => download(item.image[0], item.contract)}
-                >
-                  Download
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <div className="col-10">
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>Contract Number</th>
+                <th>Service Name</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              {serviceCards?.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.contract}</td>
+                  <td>{item.serviceName}</td>
+                  <td>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => download(item.image[0], item.contract)}
+                    >
+                      Download
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

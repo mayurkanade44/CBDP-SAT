@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Accordion, ServiceDocuments, Attach } from "../components";
+import {
+  Accordion,
+  ServiceDocuments,
+  Attach,
+  SearchContainer,
+} from "../components";
 import { activeBtn } from "../redux/adminSlice";
 import { filterDoc, getAllDocs, handleChange } from "../redux/documentSlice";
 
@@ -13,17 +18,6 @@ const Documents = () => {
   const files = allCatalogue?.filter(
     (item) => item.catalogueType === activeCatalogue && item.fileType
   );
-
-  // if (activeCatalogue === "Services" || activeCatalogue === "Products") {
-  //   files.length = 0;
-  //   files.push("MSDS", "SOP", "Videos", "Technical Resources");
-  // } else if (activeCatalogue === "STQ") {
-  //   files.length = 0;
-  //   files.push("EPPL", "Smark", "Other");
-  // } else {
-  //   files.length = 0;
-  //   files.push("Corporate Details", "PO", "Completion Letter", "Feedback");
-  // }
 
   useEffect(() => {
     dispatch(getAllDocs(search));
@@ -70,23 +64,13 @@ const Documents = () => {
           </div>
         </div>
         <div className="col-3">
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="File Name"
-              name="search"
-              value={search}
-              onChange={handleInput}
-            />
-            <button
-              className="input-group-text btn btn-primary"
-              id="basic-addon2"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
+          <SearchContainer
+            placeholder="File Name"
+            name="search"
+            value={search}
+            handleChange={handleInput}
+            handleSearch={handleSearch}
+          />
         </div>
         <div className="col-md-3">
           <Accordion />

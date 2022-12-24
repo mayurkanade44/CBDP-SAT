@@ -6,8 +6,8 @@ import Loading from "./Loading";
 import Multiselect from "./Multiselect";
 import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
+import SearchContainer from "./SearchContainer";
 import ServiceDocuments from "./ServiceDocuments";
-
 
 export {
   Navbar,
@@ -19,4 +19,5 @@ export {
   Attach,
   ProtectedRoute,
   Loading,
+  SearchContainer,
 };

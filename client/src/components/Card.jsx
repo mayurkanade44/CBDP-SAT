@@ -29,14 +29,13 @@ const Card = ({
   return (
     <motion.div layout className="card">
       <h4 className="text-center mt-2">{typeOfFile}</h4>
-      <div className="card-body">
+      <div className="card-body pt-1">
         <h6 className="card-title" style={{ color: "red" }}>
           {name}
         </h6>
         <p className="card-text">
           <b>Services - </b> {typeOfService.join(", ")}
         </p>
-
         {typeOfFile === "Videos" ? (
           <a href={file} target="_blank" rel="noreferrer">
             <button className="btn btn-primary m-1">Preview</button>
