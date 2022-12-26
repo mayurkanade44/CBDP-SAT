@@ -276,7 +276,7 @@ header .nav-link h5:hover {
 
 /* =================== Landing Carousel =================== */
 
-.app {
+/* .app {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -444,7 +444,7 @@ header .nav-link h5:hover {
 .shortName {
   font-size: 34px;
   transform: rotate(-90deg);
-}
+} */
 
 .modal {
   display: block;
