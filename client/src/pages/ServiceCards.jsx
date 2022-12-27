@@ -56,7 +56,7 @@ const ServiceCards = () => {
         </div>
         <div className="col-10">
           <Table
-            user={false}
+            user="Card"
             th1="Contract Number"
             th2="Service Name"
             th3="Download"

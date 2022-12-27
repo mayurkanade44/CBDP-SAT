@@ -40,7 +40,7 @@ const Admin = () => {
     loading,
   } = useSelector((store) => store.admin);
 
-  const { allUsers, name, password, role, email } = useSelector(
+  const { allUsers, name, password, role, email, userLoading } = useSelector(
     (store) => store.user
   );
 
@@ -143,7 +143,7 @@ const Admin = () => {
     dispatch(userDelete(id));
   };
 
-  if (loading || docLoading) return <Loading />;
+  if (loading || docLoading || userLoading) return <Loading />;
 
   return (
     <div className="container-fluid ps-4">
@@ -184,7 +184,7 @@ const Admin = () => {
                 {register ? "Back" : "Register User"}
               </button>
               <Table
-                user={true}
+                user="User"
                 th1="Name"
                 th2="Role"
                 th3="Delete"
@@ -277,26 +277,14 @@ const Admin = () => {
             </form>
           )}
           {show === "Send Mail Data" && (
-            <table className="table table-bordered table-secondary">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Email To</th>
-                  <th>Files</th>
-                  <th>From</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sendMailData?.map((data, index) => (
-                  <tr key={index}>
-                    <td style={{ width: 150 }}>{data.date.split("T")[0]}</td>
-                    <td>{data.to}</td>
-                    <td>{data.files}</td>
-                    <td>{data.from}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Table
+              user="Mail"
+              th1="Date"
+              th2="To"
+              th3="Files"
+              th4="From"
+              data={sendMailData}
+            />
           )}
           <form className="row" onSubmit={handleSubmit}>
             {(show === "Add Document" ||
