@@ -9,7 +9,10 @@ export const addService = async (req, res) => {
     else if (serv.catalogueType) name = serv.catalogueType;
     else name = serv.fileType;
 
-    return res.status(201).json({ msg: `${name} added successfully` });
+    const services = await Admin.find({
+      _id: { $ne: "63a05aeb5ea15caab88592c5" },
+    });
+    return res.status(201).json({ msg: `${name} added successfully`, services });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "There was some error" });

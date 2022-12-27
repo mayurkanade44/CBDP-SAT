@@ -93,6 +93,7 @@ const catalogueSlice = createSlice({
       })
       .addCase(addCatalogue.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.allCatalogue = payload.services;
         toast.success(payload.msg);
       })
       .addCase(addCatalogue.rejected, (state, { payload }) => {
