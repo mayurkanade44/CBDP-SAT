@@ -7,6 +7,7 @@ import axios from "axios";
 import Admin from "../models/Admin.js";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import path from "path";
 
 export const addDocument = async (req, res) => {
   const { typeOfCatalogue, typeOfService, typeOfFile, name } = req.body;
