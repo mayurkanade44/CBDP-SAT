@@ -1,10 +1,12 @@
 import Document from "../models/Document.js";
 import { v2 as cloudinary } from "cloudinary";
-import { URL } from "url";
+// import { URL } from "url";
 import fs from "fs";
 import sgMail from "@sendgrid/mail";
 import axios from "axios";
 import Admin from "../models/Admin.js";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 export const addDocument = async (req, res) => {
   const { typeOfCatalogue, typeOfService, typeOfFile, name } = req.body;
@@ -15,9 +17,14 @@ export const addDocument = async (req, res) => {
 
     req.body.typeOfService = typeOfService.split(",");
 
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+
+    console.log(req.files.file);
+
     if (req.files) {
       const docFile = req.files.file;
-      const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
+      const docPath = path.join(__dirname, "../files/" + `${docFile.name}`);
+      // const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
       await docFile.mv(docPath);
 
       const result = await cloudinary.uploader.upload(`files/${docFile.name}`, {
@@ -50,9 +57,12 @@ export const editDocument = async (req, res) => {
 
     req.body.typeOfService = typeOfService.split(",");
 
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+
     if (req.files) {
       const docFile = req.files.file;
-      const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
+      const docPath = path.join(__dirname, "../files/" + `${docFile.name}`);
+      // const docPath = new URL("../files/" + `${docFile.name}`, import.meta.url);
       await docFile.mv(docPath);
 
       const result = await cloudinary.uploader.upload(`files/${docFile.name}`, {
