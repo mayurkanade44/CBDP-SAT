@@ -20,8 +20,6 @@ export const addDocument = async (req, res) => {
 
     const __dirname = dirname(fileURLToPath(import.meta.url));
 
-    console.log(req.files.file);
-
     if (req.files) {
       const docFile = req.files.file;
       const docPath = path.join(__dirname, "../files/" + `${docFile.name}`);
