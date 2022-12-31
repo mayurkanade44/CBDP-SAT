@@ -78,6 +78,7 @@ const catalogueSlice = createSlice({
       state.file = "";
       state.fileName = "";
       state.isEditing = false;
+      state.activeCatalogue = "Services";
     },
     setEditDoc: (state, { payload }) => {
       return { ...state, isEditing: true, show: "Add Document", ...payload };

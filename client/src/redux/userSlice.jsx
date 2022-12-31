@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { authFetch } from "../utilis/auth";
+import { clearAdminValues } from "./adminSlice";
+import { clearDocValues } from "./documentSlice";
 
 const initialState = {
   userLoading: false,
@@ -63,6 +65,20 @@ export const userDelete = createAsyncThunk(
   }
 );
 
+export const clearStore = createAsyncThunk(
+  "users/clearStore",
+  async (_, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(logout());
+      thunkAPI.dispatch(clearAdminValues());
+      thunkAPI.dispatch(clearValues());
+      thunkAPI.dispatch(clearDocValues());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -76,7 +92,7 @@ const userSlice = createSlice({
       state.password = "";
       state.role = "";
     },
-    logout: (state) => {
+    logout: (state, thunkAPI) => {
       state.user = null;
       localStorage.removeItem("user");
       toast.success("Logged out successfully");

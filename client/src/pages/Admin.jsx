@@ -106,6 +106,7 @@ const Admin = () => {
       myForm.set("typeOfFile", fileType);
       myForm.set("typeOfService", value);
       myForm.set("name", fileName);
+      myForm.set("description", description);
 
       if (isEditing) {
         myForm.append("file", doc ? doc : file);

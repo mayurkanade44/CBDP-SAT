@@ -91,7 +91,7 @@ export const sendMail = createAsyncThunk(
   async (mail, thunkAPI) => {
     try {
       const res = await authFetch.post("/documents/sendMail", mail);
-      thunkAPI.dispatch(clearValues());
+      thunkAPI.dispatch(clearDocValues());
       return res.data;
     } catch (error) {
       console.log(error);
@@ -132,9 +132,10 @@ const documentSlice = createSlice({
     removeFile: (state, { payload: { name } }) => {
       state.filesCart = state.filesCart.filter((item) => item.name !== name);
     },
-    clearValues: (state) => {
+    clearDocValues: (state) => {
       state.emailTo = "";
       state.filesCart = [];
+      state.search = "";
     },
   },
   extraReducers: (builder) => {
@@ -218,7 +219,7 @@ const documentSlice = createSlice({
   },
 });
 
-export const { filterDoc, handleChange, attachFile, removeFile, clearValues } =
+export const { filterDoc, handleChange, attachFile, removeFile, clearDocValues } =
   documentSlice.actions;
 
 export default documentSlice.reducer;
