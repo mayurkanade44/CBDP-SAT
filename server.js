@@ -36,7 +36,7 @@ app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.use(express.json());
 app.use(fileUpload());
-// app.use(cors());
+app.use(cors());
 
 app.use("/api/admin", authenticateUser, adminRouter);
 app.use("/api/documents", authenticateUser, documentRouter);
