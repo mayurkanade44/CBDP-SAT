@@ -4,6 +4,9 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
 import cors from "cors";
 
 const app = express();
@@ -25,13 +28,25 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// only when ready to deploy
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+
 app.use(express.json());
 app.use(fileUpload());
-app.use(cors());
+// app.use(cors());
 
 app.use("/api/admin", authenticateUser, adminRouter);
 app.use("/api/documents", authenticateUser, documentRouter);
 app.use("/api/user", authRouter);
+
+
+// only when ready to deploy
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 app.use(notFoundError);
 
