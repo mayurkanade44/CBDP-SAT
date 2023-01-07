@@ -26,18 +26,12 @@ const Navbar = () => {
             <li className="nav-item">
               <img src={horse} alt="horse" width={55} />
             </li>
-            <li
-              className="nav-item text-center horse"
-              aria-current="page"
-              onClick={() => {
-                setExpand(false);
-              }}
-            >
-              <h2>CBDP</h2>
+            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+              <h2 className="text-center">CBDP</h2>
               <p style={{ marginBottom: 0, fontWeight: 400, fontSize: 12 }}>
                 Cloud Based Document Portal
               </p>
-            </li>
+            </Link>
 
             <button
               className="navbar-toggler collapsed"
