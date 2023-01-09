@@ -471,5 +471,11 @@ header .nav-link h5:hover {
   .accordion b {
     font-size: 10px !important;
   }
-  
+}
+
+.ad {
+  background-image: url("./images/poll.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }

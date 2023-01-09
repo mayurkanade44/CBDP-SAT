@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import new1 from "../images/new.png";
 import bag from "../images/bag.png";
-import first from "../images/fog.jpeg";
+import first from "../images/poll.png";
 import second from "../images/fog1.jpeg";
 import third from "../images/stq.jpg";
 
@@ -164,7 +164,7 @@ const Landing = () => {
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active" style={{ height: 400 }}>
-            <img src={first} className="img-fluid" alt="..." />
+            <img src={first} className="img-fluid ad" alt="..." />
             <div className="carousel-caption d-none d-md-block">
               <h5>First slide label</h5>
               <p>

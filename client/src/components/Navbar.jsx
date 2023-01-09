@@ -26,7 +26,7 @@ const Navbar = () => {
             <li className="nav-item">
               <img src={horse} alt="horse" width={55} />
             </li>
-            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+            <Link to="/documents" style={{ textDecoration: "none", color: "black" }}>
               <h2 className="text-center">CBDP</h2>
               <p style={{ marginBottom: 0, fontWeight: 400, fontSize: 12 }}>
                 Cloud Based Document Portal

@@ -38,13 +38,12 @@ const otherSlice = createSlice({
       })
       .addCase(getServiceCards.fulfilled, (state, { payload }) => {
         state.otherLoading = false;
-        if (payload.cards <= 0) {
-          toast.error("No contract found");
-        }
         state.serviceCards = payload.cards;
       })
       .addCase(getServiceCards.rejected, (state, { payload }) => {
         state.otherLoading = false;
+        state.serviceCards = [];
+        toast.error(payload);
       });
   },
 });
