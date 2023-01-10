@@ -14,6 +14,7 @@ import {
   handleAdminChange,
   setShow,
   getMailData,
+  addVideo,
 } from "../redux/adminSlice";
 import { addDoc, editDoc } from "../redux/documentSlice";
 import {
@@ -121,6 +122,10 @@ const Admin = () => {
       return;
     } else if (show === "Add File Type") {
       dispatch(addCatalogue({ catalogueType, fileType }));
+      return;
+    } else if (show === "Up Skill") {
+      const link = `https://www.youtube.com/embed/${file.split("/").pop()}`;
+      dispatch(addVideo({ fileName, file }));
       return;
     }
   };
@@ -417,6 +422,40 @@ const Admin = () => {
                       required={isEditing ? false : true}
                     />
                   )}
+                </div>
+              </>
+            )}
+            {show === "Up Skill" && (
+              <>
+                <div className="col-md-4">
+                  <InputRow
+                    label="Title"
+                    name="fileName"
+                    value={fileName}
+                    handleChange={(e) =>
+                      dispatch(
+                        handleAdminChange({
+                          name: e.target.name,
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
+                </div>
+                <div className="col-md-4">
+                  <InputRow
+                    label="Video URL"
+                    name="file"
+                    value={file}
+                    handleChange={(e) =>
+                      dispatch(
+                        handleAdminChange({
+                          name: e.target.name,
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
                 </div>
               </>
             )}

@@ -59,6 +59,20 @@ export const getMailData = createAsyncThunk(
   }
 );
 
+export const addVideo = createAsyncThunk(
+  "upskill/addVideo",
+  async (video, thunkAPI) => {
+    try {
+      const res = await authFetch.post("/upskill/video", video);
+      thunkAPI.dispatch(clearAdminValues());
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
 const catalogueSlice = createSlice({
   name: "catalogue",
   initialState,
@@ -120,6 +134,17 @@ const catalogueSlice = createSlice({
         state.sendMailData = payload.sendMails;
       })
       .addCase(getMailData.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(addVideo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addVideo.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        toast.success(payload.msg);
+      })
+      .addCase(addVideo.rejected, (state, { payload }) => {
         state.loading = false;
         toast.error(payload);
       });
