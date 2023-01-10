@@ -210,9 +210,9 @@ export const sendMail = async (req, res) => {
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
-      to: emailTo,
+      to: emailTo.split(","),
       cc: "epcorn@yahoo.in",
-      from: { email: "noreply.epcorn@gmail.com", name: "do_not_reply_epcorn" },
+      from: { email: "noreply.epcorn@gmail.com", name: "donotreply_epcorn" },
       dynamic_template_data: {
         fileName: fileName.join(", "),
         video: ytVideo,
@@ -224,9 +224,9 @@ export const sendMail = async (req, res) => {
 
     await sgMail.send(msg);
 
-    const admin = await Admin.findById("63a05aeb5ea15caab88592c5");
-    admin.sendData.push(sendData);
-    admin.save();
+    // const admin = await Admin.findById("63a05aeb5ea15caab88592c5");
+    // admin.sendData.push(sendData);
+    // admin.save();
 
     res.status(200).json({ msg: "Email has been sent" });
   } catch (error) {

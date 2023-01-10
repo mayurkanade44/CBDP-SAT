@@ -44,7 +44,7 @@ const Attach = () => {
           <div className="col-6">
             <InputRow
               label="Email To -"
-              type="email"
+              type="text"
               placeholder="abc@xyz.com"
               name="emailTo"
               value={emailTo}
