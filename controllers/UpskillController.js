@@ -15,8 +15,13 @@ export const addVideo = async (req, res) => {
 };
 
 export const getVideos = async (req, res) => {
+  const { search } = req.query;
+  let queryObject = {};
   try {
-    const videos = await Upskill.find();
+    if (search) {
+      queryObject.fileName = { $regex: search, $options: "i" };
+    }
+    const videos = await Upskill.find(queryObject);
     res.status(200).json({ videos });
   } catch (error) {
     console.log(error);

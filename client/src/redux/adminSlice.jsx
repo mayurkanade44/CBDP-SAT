@@ -17,6 +17,7 @@ const initialState = {
   show: "All Users",
   file: "",
   sendMailData: [],
+  videos: [],
 };
 
 export const addCatalogue = createAsyncThunk(
@@ -65,6 +66,21 @@ export const addVideo = createAsyncThunk(
     try {
       const res = await authFetch.post("/upskill/video", video);
       thunkAPI.dispatch(clearAdminValues());
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const getVideos = createAsyncThunk(
+  "upskill/allVideos",
+  async (fileName, thunkAPI) => {
+    try {
+      let url = "/upskill/video";
+      if (fileName) url = url + `?search=${fileName}`
+      const res = await authFetch.get(url);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -145,6 +161,17 @@ const catalogueSlice = createSlice({
         toast.success(payload.msg);
       })
       .addCase(addVideo.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(getVideos.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getVideos.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.videos = payload.videos;
+      })
+      .addCase(getVideos.rejected, (state, { payload }) => {
         state.loading = false;
         toast.error(payload);
       });

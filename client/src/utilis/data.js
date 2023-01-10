@@ -19,4 +19,8 @@ export const adminController = [
     id: 6,
     name: "Send Mail Data",
   },
+  {
+    id: 7,
+    name: "Up Skill",
+  },
 ];
