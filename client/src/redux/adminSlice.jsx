@@ -79,8 +79,21 @@ export const getVideos = createAsyncThunk(
   async (fileName, thunkAPI) => {
     try {
       let url = "/upskill/video";
-      if (fileName) url = url + `?search=${fileName}`
+      if (fileName) url = url + `?search=${fileName}`;
       const res = await authFetch.get(url);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const deleteVideo = createAsyncThunk(
+  "upskill/deleteVideo",
+  async (id, thunkAPI) => {
+    try {
+      const res = await authFetch.delete(`/upskill/video/${id}`);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -172,6 +185,18 @@ const catalogueSlice = createSlice({
         state.videos = payload.videos;
       })
       .addCase(getVideos.rejected, (state, { payload }) => {
+        state.loading = false;
+        toast.error(payload);
+      })
+      .addCase(deleteVideo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteVideo.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.videos = payload.videos;
+        toast.success(payload.msg);
+      })
+      .addCase(deleteVideo.rejected, (state, { payload }) => {
         state.loading = false;
         toast.error(payload);
       });

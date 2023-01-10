@@ -21,6 +21,7 @@ cloudinary.config({
 import documentRouter from "./routes/DocumentRoute.js";
 import adminRouter from "./routes/AdminRoute.js";
 import authRouter from "./routes/UserRoute.js";
+import upskillRouter from "./routes/UpskillRoute.js";
 import { notFoundError } from "./middleware/notFound.js";
 import { authenticateUser } from "./middleware/auth.js";
 
@@ -34,13 +35,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.use(cors());
-
 app.use(express.json());
 app.use(fileUpload());
 
+app.use("/api/user", authRouter);
 app.use("/api/admin", authenticateUser, adminRouter);
 app.use("/api/documents", authenticateUser, documentRouter);
-app.use("/api/user", authRouter);
+app.use("/api/upskill", authenticateUser, upskillRouter);
 
 // only when ready to deploy
 app.get("*", (req, res) => {

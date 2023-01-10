@@ -124,7 +124,6 @@ const Admin = () => {
       dispatch(addCatalogue({ catalogueType, fileType }));
       return;
     } else if (show === "Up Skill") {
-      const link = `https://www.youtube.com/embed/${file.split("/").pop()}`;
       dispatch(addVideo({ fileName, file }));
       return;
     }

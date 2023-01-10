@@ -21,7 +21,7 @@ export const authorizeUser = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return res
         .status(403)
-        .json({ msg: "You dont have permission, please contact admin" });
+        .json({ msg: "You don't have permission, please contact admin" });
     }
     next();
   };

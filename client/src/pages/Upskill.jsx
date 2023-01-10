@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SearchContainer } from "../components";
-import { getVideos, handleAdminChange } from "../redux/adminSlice";
+import { Loading, SearchContainer } from "../components";
+import { deleteVideo, getVideos, handleAdminChange } from "../redux/adminSlice";
 
 const Upskill = () => {
-  const { videos, fileName } = useSelector((store) => store.admin);
+  const { videos, fileName, loading } = useSelector((store) => store.admin);
+  const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVideos());
+
+    // eslint-disable-next-line
   }, []);
 
   const handleInput = (e) => {
@@ -24,6 +27,8 @@ const Upskill = () => {
     dispatch(getVideos(fileName));
   };
 
+  if (loading) return <Loading />;
+
   return (
     <div className="container">
       <div className="row gx-5 gy-4">
@@ -38,7 +43,7 @@ const Upskill = () => {
         </div>
         {videos?.length === 0 && (
           <h3 className="text-center">
-            <b>No document found.</b>
+            <b>No Video found.</b>
           </h3>
         )}
         {videos?.map((video) => (
@@ -53,7 +58,17 @@ const Upskill = () => {
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               ></iframe>
-              <h5 className="text-center pb-3">{video.fileName}</h5>
+              <h5 className="text-center d-inline px-2 text-success">
+                {video.fileName}
+              </h5>
+              {user.role === "Admin" && (
+                <button
+                  className="btn btn-danger mx-2"
+                  onClick={() => dispatch(deleteVideo(video._id))}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         ))}
