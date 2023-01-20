@@ -80,7 +80,7 @@ const Landing = () => {
   }, [user]);
 
   return (
-    <div className="container">
+    <div className="container" style={{marginTop:95}}>
       <div className="row">
         {newDocs?.map((item) => {
           return (

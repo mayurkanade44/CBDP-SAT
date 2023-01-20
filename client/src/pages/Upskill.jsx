@@ -30,7 +30,7 @@ const Upskill = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="container">
+    <div className="container page-top">
       <div className="row gx-5 gy-4">
         <div className="col-12 pt-4 d-flex justify-content-center ">
           <SearchContainer

@@ -151,7 +151,7 @@ const Admin = () => {
   if (loading || docLoading || userLoading) return <Loading />;
 
   return (
-    <div className="container-fluid ps-4">
+    <div className="container-fluid ps-4 page-top">
       <h3 className="text-center mb-3 text-success">Admin Dashboard</h3>
       <div className="row">
         <div className="col-2">
