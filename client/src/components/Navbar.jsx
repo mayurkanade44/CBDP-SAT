@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg mb-2 ">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <ul className="navbar-nav mobile-nav my-1">
             <li className="nav-item">
