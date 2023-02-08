@@ -7,14 +7,16 @@ CBDP is Cloud Based Document Portal, developed using MERN for quicker and easier
 ## Demo
 
 
-Project in action: [CBDP](https://CBDP.sat9.in/)
+Project in action: [CBDP](https://cbdp.sat9.in/)
 
 Video: [Youtube](https://youtu.be/yJP8IwwrQ9k)
+
+Documentation: [PDF](https://res.cloudinary.com/epcorn/image/upload/v1675857838/signature/CBDP_Technical_Document_ossvfn.pdf)
 
 
 ## Tech Stack
 
-**Client:** React, Bootstrap
+**Client:** React, Redux-Toolkit, Bootstrap
 
 **Server:** Node, Express
 
