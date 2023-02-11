@@ -219,7 +219,12 @@ const documentSlice = createSlice({
   },
 });
 
-export const { filterDoc, handleChange, attachFile, removeFile, clearDocValues } =
-  documentSlice.actions;
+export const {
+  filterDoc,
+  handleChange,
+  attachFile,
+  removeFile,
+  clearDocValues,
+} = documentSlice.actions;
 
 export default documentSlice.reducer;
