@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { authFetch } from "../utilis/auth";
+import { authFetch, unauthorizedError } from "../utilis/auth";
 import { clearAdminValues } from "./adminSlice";
 
 const initialState = {
@@ -68,7 +68,7 @@ export const getAllDocs = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue(error.response.data.msg);
+      return unauthorizedError(error, thunkAPI);
     }
   }
 );
