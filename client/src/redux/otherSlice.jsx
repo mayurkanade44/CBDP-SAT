@@ -13,7 +13,7 @@ export const getServiceCards = createAsyncThunk(
   async (contract, thunkAPI) => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_CQR}/api/serviceCard?contract=${contract}`
+        `https://cqr1.herokuapp.com/api/serviceCard?contract=${contract}`
       );
       return res.data;
     } catch (error) {
