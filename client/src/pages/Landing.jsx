@@ -1,72 +1,18 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import new1 from "../images/new.png";
-import bag from "../images/bag.png";
-import first from "../images/poll.png";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import second from "../images/fog1.jpeg";
+import new1 from "../images/new.png";
+import first from "../images/poll.png";
 import third from "../images/stq.jpg";
 
-import { latestDocs } from "../redux/documentSlice";
 import { useNavigate } from "react-router-dom";
+import { latestDocs } from "../redux/documentSlice";
 
 const Landing = () => {
   const { newDocs } = useSelector((store) => store.doc);
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
-  const [activeItem, setActiveItem] = useState(1);
   const navigate = useNavigate();
-
-  const data = [
-    {
-      id: 1,
-      url: new1,
-      name: "Writing Course",
-      topicList: 100,
-      shortName: "Writing",
-    },
-    {
-      id: 2,
-      url: bag,
-      name: "Coding Course",
-      topicList: 120,
-      shortName: "Coding",
-    },
-    {
-      id: 3,
-      url: new1,
-      name: "Business Course",
-      topicList: 150,
-      shortName: "Business",
-    },
-    {
-      id: 4,
-      url: bag,
-      name: "Business Course",
-      topicList: 150,
-      shortName: "Business",
-    },
-    {
-      id: 5,
-      url: new1,
-      name: "Business Course",
-      topicList: 150,
-      shortName: "Business",
-    },
-  ];
-
-  const handleHover = (id) => {
-    if (activeItem === id) {
-      return;
-    }
-    setActiveItem(id);
-  };
-
-  const handleHoverLeave = () => {
-    if (activeItem === 1) {
-      return;
-    }
-    setActiveItem(1);
-  };
 
   useEffect(() => {
     dispatch(latestDocs());
@@ -80,7 +26,7 @@ const Landing = () => {
   }, [user]);
 
   return (
-    <div className="container" style={{marginTop:95}}>
+    <div className="container" style={{ marginTop: 95 }}>
       <div className="row">
         {newDocs?.map((item) => {
           return (
@@ -95,45 +41,6 @@ const Landing = () => {
         })}
       </div>
       <hr />
-      {/* <div className="app">
-        <div className="wrapper">
-          <div className="container-wrapper">
-            <div className="container-img">
-              {data.map((item) => (
-                <div
-                  className={item.id === activeItem ? "active" : "item-wrapper"}
-                  onMouseOver={() => handleHover(item.id)}
-                  onMouseLeave={() => handleHoverLeave(item.id)}
-                  key={item.id}
-                >
-                  <div
-                    className={item.id === activeItem ? "item-active" : "item"}
-                  >
-                    <div
-                      className={
-                        item.id === activeItem
-                          ? "container-wrap1-active"
-                          : "container-wrap1"
-                      }
-                    >
-                      <div className="fullName">{item.name}</div>
-                    </div>
-                    <div
-                      className={
-                        item.id === activeItem
-                          ? "container-wrap2-active"
-                          : "container-wrap2"
-                      }
-                    >
-                      <div className="shortName">{item.shortName}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       <div
         id="carouselExampleControls"

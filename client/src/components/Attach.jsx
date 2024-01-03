@@ -8,6 +8,7 @@ const Attach = () => {
   const { docLoading, filesCart, emailTo } = useSelector((store) => store.doc);
   const { user } = useSelector((store) => store.user);
   const [collapseButton, setCollapseButton] = useState("");
+  const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -15,8 +16,17 @@ const Attach = () => {
     if (filesCart.length < 1) {
       return toast.error("Please attach files.");
     }
-    const userName = user.name;
-    dispatch(sendMail({ emailTo, filesCart, userName }));
+
+    const form = new FormData();
+    form.set("userName", user.name);
+    form.set("emailTo", emailTo);
+    console.log(filesCart);
+    filesCart.map((item) => form.append("filesCart", JSON.stringify(item)));
+    if (files.length > 0) {
+      files.map((item) => form.append("attachment", item));
+    }
+
+    dispatch(sendMail(form));
     setTimeout(() => {
       setCollapseButton("collapse");
       setCollapseButton("collapse");
@@ -41,6 +51,13 @@ const Attach = () => {
           ))}
         </div>
         <form className="row mt-2" onSubmit={handleSubmit}>
+          <div className="col-12 my-3">
+            <input
+              type="file"
+              multiple
+              onChange={(e) => setFiles(Array.from(e.target.files))}
+            />
+          </div>
           <div className="col-6">
             <InputRow
               label="Email To -"

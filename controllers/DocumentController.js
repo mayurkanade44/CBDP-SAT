@@ -9,6 +9,8 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export const addDocument = async (req, res) => {
   const { typeOfCatalogue, typeOfService, typeOfFile, name } = req.body;
   try {
@@ -55,8 +57,6 @@ export const editDocument = async (req, res) => {
     }
 
     req.body.typeOfService = typeOfService.split(",");
-
-    const __dirname = dirname(fileURLToPath(import.meta.url));
 
     if (req.files) {
       const docFile = req.files.file;
@@ -160,26 +160,38 @@ export const sendMail = async (req, res) => {
       return res.status(400).json({ msg: "Please provide email id or files" });
     }
 
-    // const url = Object.values(filesCart);
-    // const fileName = Object.keys(filesCart);
-    // const attach = [];
-    // for (let i = 0; i < url.length; i++) {
-    //   const fileType = url[i].split(".").pop();
-    //   const result = await axios.get(url[i], { responseType: "arraybuffer" });
-    //   const base64File = Buffer.from(result.data, "binary").toString("base64");
-    //   const attachObj = {
-    //     content: base64File,
-    //     filename: `${fileName[i]}.${fileType}`,
-    //     type: `application/${fileType}`,
-    //     disposition: "attachment",
-    //   };
-    //   attach.push(attachObj);
-    // }
+    let fileLinks = [];
+    if (filesCart.length > 0) fileLinks = filesCart;
+    else fileLinks.push(filesCart);
+
+    if (req.files) {
+      let files = [];
+      if (req.files.attachment.length > 0) files = req.files.attachment;
+      else files.push(req.files.attachment);
+
+      for (let file of files) {
+        const docFile = file;
+        const docPath = path.join(__dirname, "../files/" + `${docFile.name}`);
+        await docFile.mv(docPath);
+        const result = await cloudinary.uploader.upload(
+          `files/${docFile.name}`,
+          {
+            resource_type: "raw",
+            use_filename: true,
+            folder: "cbdp",
+          }
+        );
+
+        fileLinks.push(result.secure_url);
+        fs.unlinkSync(`./files/${docFile.name}`);
+      }
+    }
 
     let attach = [],
       ytVideo = [],
       fileName = [];
-    for (let item of filesCart) {
+    for (let item of fileLinks) {
+      item = JSON.parse(item);
       fileName.push(item.name);
       if (item.typeOfFile === "Videos") {
         ytVideo.push(item.file);

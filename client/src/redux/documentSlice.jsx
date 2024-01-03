@@ -11,6 +11,7 @@ const initialState = {
   emailTo: "",
   filesCart: [],
   newDocs: [],
+  attachment: [],
 };
 
 export const addDoc = createAsyncThunk(
