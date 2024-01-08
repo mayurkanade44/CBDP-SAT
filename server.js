@@ -32,7 +32,10 @@ if (process.env.NODE_ENV !== "production") {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // only when ready to deploy
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 app.use(cors());
 app.use(express.json());
@@ -42,11 +45,6 @@ app.use("/api/user", authRouter);
 app.use("/api/admin", authenticateUser, adminRouter);
 app.use("/api/documents", authenticateUser, documentRouter);
 app.use("/api/upskill", authenticateUser, upskillRouter);
-
-// only when ready to deploy
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-// });
 
 app.use(notFoundError);
 
