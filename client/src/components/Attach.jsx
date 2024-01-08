@@ -20,7 +20,6 @@ const Attach = () => {
     const form = new FormData();
     form.set("userName", user.name);
     form.set("emailTo", emailTo);
-    console.log(filesCart);
     filesCart.map((item) => form.append("filesCart", JSON.stringify(item)));
     if (files.length > 0) {
       files.map((item) => form.append("attachment", item));

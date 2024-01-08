@@ -161,8 +161,10 @@ export const sendMail = async (req, res) => {
     }
 
     let fileLinks = [];
-    if (filesCart.length > 0) fileLinks = filesCart;
-    else fileLinks.push(filesCart);
+    console.log(typeof filesCart);
+    if (typeof filesCart === "string") {
+      fileLinks.push(JSON.parse(filesCart));
+    } else filesCart.map((file) => fileLinks.push(JSON.parse(file)));
 
     if (req.files) {
       let files = [];
@@ -182,7 +184,7 @@ export const sendMail = async (req, res) => {
           }
         );
 
-        fileLinks.push(result.secure_url);
+        fileLinks.push({ name: docFile.name, file: result.secure_url });
         fs.unlinkSync(`./files/${docFile.name}`);
       }
     }
@@ -191,7 +193,6 @@ export const sendMail = async (req, res) => {
       ytVideo = [],
       fileName = [];
     for (let item of fileLinks) {
-      item = JSON.parse(item);
       fileName.push(item.name);
       if (item.typeOfFile === "Videos") {
         ytVideo.push(item.file);
